@@ -32,6 +32,11 @@
       "value": true,
       "description": "누적 게이트 풀은 review_status=passed 인 NNN만. REGRESSION-POLICY.md 의 통과 조건.",
       "check": "STATUS.md '## 누적 게이트 풀' 섹션의 NNN 들이 expanded/NNN-*.md 에서 review_status=passed 인지"
+    },
+    "evolution_adr_required": {
+      "value": true,
+      "description": "SFD 시스템 명세 변경(5 스킬 SKILL.md, AGENTS.md 룰, rules.json, .harness/templates/*, init 스킬 whitelist, .env.scenario.example 변수)은 .harness/EVOLUTION/NNN-*.md ADR 동반. cycle 산출물(throws/expanded/specs/tests) 변경은 제외.",
+      "check": ".harness/EVOLUTION/ 디렉터리 존재 + 변경 commit 에 NNN-*.md 동반 또는 명시 면제 사유"
     }
   },
   "enforcement": {
