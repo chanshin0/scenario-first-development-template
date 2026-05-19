@@ -20,7 +20,7 @@ description: 시나리오-First 개발 1.5단계. Job Story를 (a) User Story Ma
 
 | 인자 | 동작 |
 |---|---|
-| `/scenario-first-expand <NNN>` | `.scenarios/throws/NNN-*.md` 확장 |
+| `/scenario-first-expand <NNN>` | `scenarios/throws/NNN-*.md` 확장 |
 | `/scenario-first-expand --rerun <NNN>` | 이미 확장된 것 재실행 (백업 후 덮어쓰기) |
 
 자동 트리거 금지.
@@ -28,8 +28,8 @@ description: 시나리오-First 개발 1.5단계. Job Story를 (a) User Story Ma
 ## 사전 점검
 
 ```bash
-test -f .scenarios/throws/NNN-*.md   # 입력 존재 확인
-mkdir -p .scenarios/expanded
+test -f scenarios/throws/NNN-*.md   # 입력 존재 확인
+mkdir -p scenarios/expanded
 ```
 
 throws에 해당 ID 없으면 에러.
@@ -38,7 +38,7 @@ throws에 해당 ID 없으면 에러.
 
 ### 1. Job Story 로드
 
-`.scenarios/throws/NNN-*.md`에서 Job Story와 원본 메모 추출.
+`scenarios/throws/NNN-*.md`에서 Job Story와 원본 메모 추출.
 
 ### 2. User Story Mapping (Jeff Patton 2014)
 
@@ -112,7 +112,7 @@ Scenario: <Example 한 줄 요약>
 
 ### 7. 저장
 
-`.scenarios/expanded/NNN-<slug>.md`:
+`scenarios/expanded/NNN-<slug>.md`:
 
 ```markdown
 ---
@@ -155,7 +155,7 @@ Scenario: ...
 
 throws의 frontmatter도 갱신:
 ```
-expanded_to: .scenarios/expanded/NNN-<slug>.md
+expanded_to: scenarios/expanded/NNN-<slug>.md
 ```
 
 ### 8. 응답
@@ -168,8 +168,8 @@ Next: /scenario-first-spec NNN
 
 ## 산출
 
-- `.scenarios/expanded/NNN-<slug>.md`
-- 갱신된 `.scenarios/throws/NNN-*.md` frontmatter
+- `scenarios/expanded/NNN-<slug>.md`
+- 갱신된 `scenarios/throws/NNN-*.md` frontmatter
 - 응답 요약
 
 ## 다음 단계

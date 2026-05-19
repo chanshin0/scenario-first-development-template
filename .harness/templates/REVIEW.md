@@ -1,7 +1,7 @@
 # REVIEW NNN — <Job Story 한 줄>
 
 > `scenario-first-review` 4단계 산출물. **본인이 직접 사용** + **6범주 사전 평가** + **evidence 첨부** + **5 Whys 라우팅** (실패 시).
-> 이 템플릿은 `.scenarios/specs/NNN/REVIEW.md` 로 저장.
+> 이 템플릿은 `scenarios/specs/NNN/REVIEW.md` 로 저장.
 
 ---
 
@@ -38,8 +38,8 @@
 
 다음 중 **최소 2개 첨부**. 없으면 `review_status: passed` 표시 금지:
 
-- [ ] **스크린샷 or 화면 녹화** 경로: `<예: .scenarios/specs/NNN/evidence/screenshot-001.png>`
-- [ ] **goal 4단계 PASS 로그** 경로: `<예: .scenarios/specs/NNN/GOAL.md 참조>`
+- [ ] **스크린샷 or 화면 녹화** 경로: `<예: scenarios/specs/NNN/evidence/screenshot-001.png>`
+- [ ] **goal 4단계 PASS 로그** 경로: `<예: scenarios/specs/NNN/GOAL.md 참조>`
 - [ ] **commit hash range**: `<예: abc123..def456>`
 - [ ] **사용 narrative** (본인이 실제로 어떻게 썼는지 1~2문장): `<...>`
 - [ ] **LLM judge 출력** (해당 시): `<rationale 인용>`

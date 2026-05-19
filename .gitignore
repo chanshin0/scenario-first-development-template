@@ -2,3 +2,16 @@
 *.swp
 .idea/
 .vscode/
+
+# === scenario-first 하네스 ===
+
+# 환경변수 (프로젝트별, 비밀값 가능성)
+.env.scenario
+
+# rerun 백업 (감사 추적은 .harness/STATUS.md, 파일 자체는 ignore)
+.harness/.backups/
+
+# E2E 산출물 (commit 정책은 프로젝트마다 결정)
+# - default: commit (regression 누적용)
+# - 무시하려면 아래 주석 해제
+# tests/e2e/scenario-*/

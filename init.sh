@@ -32,9 +32,12 @@ bootstrap() {
     echo "⚠ .env.scenario 없음 — /scenario-first-init 다시 실행 권장"
   fi
 
-  mkdir -p .scenarios/{throws,expanded,specs,.backups}
-  touch .scenarios/throws/.gitkeep .scenarios/expanded/.gitkeep .scenarios/specs/.gitkeep
-  echo "✓ .scenarios/ 구조 확인"
+  mkdir -p scenarios/{throws,expanded,specs}
+  touch scenarios/throws/.gitkeep scenarios/expanded/.gitkeep scenarios/specs/.gitkeep
+  echo "✓ scenarios/ (SoT) 확인"
+
+  mkdir -p .harness/{templates,.backups}
+  echo "✓ .harness/ (운영 layer) 확인"
 
   mkdir -p tests/e2e
   touch tests/e2e/.gitkeep
@@ -59,7 +62,7 @@ bootstrap() {
   echo ""
   echo "다음 단계:"
   echo "  1. cat AGENTS.md          # 운영 8룰 확인"
-  echo "  2. cat .scenarios/STATUS.md"
+  echo "  2. cat .harness/STATUS.md"
   echo "  3. ./init.sh verify       # 누적 게이트 smoke"
   echo "  4. /scenario-first-throw \"<첫 시나리오>\""
 }

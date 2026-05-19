@@ -17,7 +17,7 @@ suggested_action: <FAIL/UNCERTAIN일 때만 — implementation_fix | scenario_cl
 
 ## 판정 절차
 
-1. **Then 인용**: `.scenarios/expanded/NNN-*.md` 의 해당 시나리오 `Then` 한 줄 그대로 인용.
+1. **Then 인용**: `scenarios/expanded/NNN-*.md` 의 해당 시나리오 `Then` 한 줄 그대로 인용.
 2. **근거 수집**: 결과물(스크린샷·HTML·DOM·로그) 에서 Then을 만족/불만족하는 구체 근거 추출. 추상 표현 금지.
 3. **이진 판정**: PASS / FAIL 중 하나. 둘 다 강한 근거 있을 때만 UNCERTAIN.
 4. **suggested_action**: FAIL이면 5 Whys 라우팅 후보 1개 제안 (review 4단계가 최종 결정).

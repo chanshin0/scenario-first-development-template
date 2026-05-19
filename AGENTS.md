@@ -11,7 +11,7 @@
                           5 Whys 라우팅 (실패 시)
 ```
 
-- SoT는 코드도 spec도 아니고 **`.scenarios/throws/NNN-*.md`의 Job Story**.
+- SoT는 코드도 spec도 아니고 **`scenarios/throws/NNN-*.md`의 Job Story**.
 - 단방향. 양방향 동기 안 함.
 - **한 번에 한 cycle (NNN). 강제.**
 - 자동 트리거 금지 — 모든 스킬은 사용자 호출 시에만.
@@ -23,10 +23,10 @@
 pwd
 
 # 2. cycle 상태 읽기 (IN_PROGRESS / WAITING_ON_USER / STUCK)
-cat .scenarios/STATUS.md
+cat .harness/STATUS.md
 
 # 3. 세션 인계 읽기 (마지막 에이전트가 남긴 다음 액션)
-cat .scenarios/HANDOFF.md
+cat .harness/HANDOFF.md
 
 # 4. 최근 commit 검토
 git log --oneline -5
@@ -41,7 +41,7 @@ git log --oneline -5
 **기준선 검증이 이미 실패 중이면 먼저 수정**. 망가진 시작 상태 위에 새 cycle 쌓지 마라.
 
 읽기 분기:
-1. STATUS.md `IN_PROGRESS:` 가 채워져 있으면 → 그 cycle 의 단계 산출물 (`.scenarios/specs/NNN/` 또는 `.scenarios/expanded/NNN-*.md`) 까지 읽고 이어서.
+1. STATUS.md `IN_PROGRESS:` 가 채워져 있으면 → 그 cycle 의 단계 산출물 (`scenarios/specs/NNN/` 또는 `scenarios/expanded/NNN-*.md`) 까지 읽고 이어서.
 2. 비어 있으면 → backlog.md 훑고 새 throw 후보 확인.
 3. `WAITING_ON_USER:` 가 채워져 있으면 → review 대기 cycle 이니 본인 사용 입력 기다리기 (Claude 시뮬레이션 금지).
 
@@ -49,33 +49,33 @@ git log --oneline -5
 
 | 단계 | 스킬 | 산출 |
 |---|---|---|
-| 0 | `/scenario-first-init` | 이 파일 + `.scenarios/` 구조 + env + git 후크 (1회) |
-| 1 | `/scenario-first-throw "<자유 텍스트>"` | `.scenarios/throws/NNN-*.md` |
-| 2 | `/scenario-first-expand <NNN>` | `.scenarios/expanded/NNN-*.md` (USM + Example Mapping + GWT) |
-| 3 | `/scenario-first-spec <NNN>` | `.scenarios/specs/NNN/{PRD,ARCHITECTURE,NONFUNC,OPS}.md` |
-| 4 | `/scenario-first-goal <NNN>` | `tests/e2e/scenario-NNN/`, `.scenarios/specs/NNN/{GOAL,STUCK}.md`, commits |
-| 5 | `/scenario-first-review <NNN>` | `.scenarios/specs/NNN/REVIEW.md` |
+| 0 | `/scenario-first-init` | 이 파일 + `scenarios/` 구조 + env + git 후크 (1회) |
+| 1 | `/scenario-first-throw "<자유 텍스트>"` | `scenarios/throws/NNN-*.md` |
+| 2 | `/scenario-first-expand <NNN>` | `scenarios/expanded/NNN-*.md` (USM + Example Mapping + GWT) |
+| 3 | `/scenario-first-spec <NNN>` | `scenarios/specs/NNN/{PRD,ARCHITECTURE,NONFUNC,OPS}.md` |
+| 4 | `/scenario-first-goal <NNN>` | `tests/e2e/scenario-NNN/`, `scenarios/specs/NNN/{GOAL,STUCK}.md`, commits |
+| 5 | `/scenario-first-review <NNN>` | `scenarios/specs/NNN/REVIEW.md` |
 
 ## 3. 운영 8룰 (반드시)
 
 ### 3.1 누적 게이트 통과 조건
-`goal` 4단계의 자동 게이트는 NNN 시나리오뿐 아니라 `.scenarios/expanded/*` 의 GWT 시나리오 전체를 누적해서 돌린다. 누적 풀 진입 조건:
+`goal` 4단계의 자동 게이트는 NNN 시나리오뿐 아니라 `scenarios/expanded/*` 의 GWT 시나리오 전체를 누적해서 돌린다. 누적 풀 진입 조건:
 
 > **`review_status: passed` 인 NNN만 누적 풀에 포함.**
 
-`expanded` 만 됐지만 review 미통과인 NNN의 GWT는 제외. 폐기된 NNN 도 영구 제외. 자세한 정책은 `.scenarios/REGRESSION-POLICY.md`.
+`expanded` 만 됐지만 review 미통과인 NNN의 GWT는 제외. 폐기된 NNN 도 영구 제외. 자세한 정책은 `.harness/REGRESSION-POLICY.md`.
 
 ### 3.2 rerun 백업 경로 통일
 모든 `--rerun`·`--force` 동작은 백업을 다음 경로에 만든다:
 
 ```
-.scenarios/.backups/<NNN>/<ISO8601>/<원본파일경로>
+.harness/.backups/<NNN>/<ISO8601>/<원본파일경로>
 ```
 
 이 경로는 gitignore. 추적은 STATUS.md `BACKUPS:` 섹션에 한 줄.
 
 ### 3.3 STATUS.md 갱신 책임
-5 스킬은 각자 작업 끝에 `.scenarios/STATUS.md` 를 한 줄 갱신한다. 스킬을 실행한 에이전트가 책임.
+5 스킬은 각자 작업 끝에 `.harness/STATUS.md` 를 한 줄 갱신한다. 스킬을 실행한 에이전트가 책임.
 
 형식:
 ```
@@ -92,7 +92,7 @@ git log --oneline -5
 - 그 NNN이 `review_status: passed` 또는
 - 사용자가 명시 폐기 (`STATUS.md` 라인 제거 + REGRESSION-POLICY 폐기 절차)
 
-머신 검증: `.scenarios/rules.json` 의 `single_active_cycle: true` 로 hook 가능.
+머신 검증: `.harness/rules.json` 의 `single_active_cycle: true` 로 hook 가능.
 
 ### 3.5 routing의 NNN 재사용
 `review` 가 5 Whys 후 라우팅할 때:
@@ -107,7 +107,7 @@ git log --oneline -5
 throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 throw에만 적용.
 
 ### 3.6 Story·보류 풀
-`.scenarios/backlog.md` 는 다음을 모은다 (append-only):
+`.harness/backlog.md` 는 다음을 모은다 (append-only):
 - `expand`의 Example Mapping에서 🟨 Story 카드로 이월된 항목
 - `spec`의 ARCH "보류" 슬롯의 결정
 
@@ -157,13 +157,13 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 
 - `.env.scenario` — `SCENARIO_GOAL_BUDGET` 등. `source .env.scenario` 또는 direnv.
 - `.gitmessage` — walking skeleton commit 규약. 등록됨.
-- `.scenarios/rules.json` — 머신 판독 룰 (single_active_cycle, passing_requires_evidence, do_not_skip_verification). hook 으로 검증 가능.
+- `.harness/rules.json` — 머신 판독 룰 (single_active_cycle, passing_requires_evidence, do_not_skip_verification). hook 으로 검증 가능.
 - E2E 프레임워크: **{{E2E_FRAMEWORK}}** (실행: `./init.sh verify` 또는 직접 `{{E2E_TEST_CMD}}`)
 
 ## 6. 금지
 
 - 자동 트리거 (모든 5 스킬 + init)
-- `.scenarios/` 외부에 cycle 산출물 저장
+- `scenarios/` 외부에 cycle 산출물 저장
 - `--no-verify`, `git push --force`
 - regression을 별도 게이트로 분리 (누적 풀에 흡수)
 - 본인 사용 단계(review)를 Claude가 시뮬레이션

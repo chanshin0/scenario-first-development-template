@@ -10,7 +10,7 @@
 `IN_PROGRESS:` 가 채워져 있는 동안 새 throw 시도하면 사전 점검에서 **멈춤**.
 해제: 그 NNN review_status=passed, 또는 명시 폐기 (REGRESSION-POLICY 절차).
 
-머신 검증: `.scenarios/rules.json` 의 `single_active_cycle: true`.
+머신 검증: `.harness/rules.json` 의 `single_active_cycle: true`.
 
 ## IN_PROGRESS
 IN_PROGRESS: (none)
@@ -24,7 +24,7 @@ WAITING_ON_USER: (none)
 STUCK: (none)
 
 ## BACKUPS
-<!-- rerun/force 백업 추적 — 파일 자체는 .scenarios/.backups/ (gitignore). -->
+<!-- rerun/force 백업 추적 — 파일 자체는 .harness/.backups/ (gitignore). -->
 <!-- 형식: - <ISO8601> <NNN> <원본> → <백업경로> -->
 
 ---

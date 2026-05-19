@@ -5,7 +5,7 @@
 
 ## 통과 조건 (반드시 1개)
 
-> **`.scenarios/expanded/NNN-*.md` 의 frontmatter `review_status: passed` 인 NNN의 GWT 시나리오만 누적 풀에 포함.**
+> **`scenarios/expanded/NNN-*.md` 의 frontmatter `review_status: passed` 인 NNN의 GWT 시나리오만 누적 풀에 포함.**
 
 근거:
 - `expanded` 만 됐고 review 미통과면 시나리오 자체가 본인 의도와 어긋날 수 있음 → 게이트로 두면 잘못된 정답을 강요
@@ -25,10 +25,10 @@
 
 NNN 폐기 시 다음을 함께:
 
-1. `.scenarios/expanded/NNN-*.md` frontmatter에 `archived: true` 추가 (파일은 보존 — 기록용)
-2. `tests/e2e/scenario-NNN/` 디렉터리 → `.scenarios/.backups/<NNN>/<ISO8601>/tests/` 로 이동
-3. `.scenarios/STATUS.md`의 누적 게이트 풀 섹션에서 해당 NNN 제거
-4. 폐기 사유 한 줄을 `.scenarios/backlog.md`에 append (잊혀짐 방지)
+1. `scenarios/expanded/NNN-*.md` frontmatter에 `archived: true` 추가 (파일은 보존 — 기록용)
+2. `tests/e2e/scenario-NNN/` 디렉터리 → `.harness/.backups/<NNN>/<ISO8601>/tests/` 로 이동
+3. `.harness/STATUS.md`의 누적 게이트 풀 섹션에서 해당 NNN 제거
+4. 폐기 사유 한 줄을 `.harness/backlog.md`에 append (잊혀짐 방지)
 
 ## 동기 책임
 

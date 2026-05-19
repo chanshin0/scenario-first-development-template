@@ -3,8 +3,8 @@
 # 환경변수 (프로젝트별, 비밀값 가능성)
 .env.scenario
 
-# rerun 백업 (감사 추적은 STATUS.md, 파일 자체는 ignore)
-.scenarios/.backups/
+# rerun 백업 (감사 추적은 .harness/STATUS.md, 파일 자체는 ignore)
+.harness/.backups/
 
 # E2E 산출물 (commit 정책은 프로젝트마다 결정)
 # - default: commit (regression 누적용)
