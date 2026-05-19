@@ -4,15 +4,27 @@
 
 5개의 Claude Code 스킬 + 1개의 init 스킬로 구성된 결정성 있는 개발 파이프라인. Job Story 부터 GWT 자동 게이트까지 단방향으로 흐르며, 매 cycle 같은 절차를 반복해서 즉흥적 분해의 비용을 0으로 만든다.
 
-이 레포는 **방법론 설명서 + `scenario-first-init` 스킬** 을 담는다. 나머지 5 스킬 (`throw`/`expand`/`spec`/`goal`/`review`) 은 [cc-skills-repo](https://github.com/chanshin0/cc-skills-repo) 의 `skills/scenario-first-*/` 에 있다.
+이 레포는 **새 아이디어를 구현할 때 쓸 스캐폴드** 다. 6개 스킬(`init` + `throw`/`expand`/`spec`/`goal`/`review`) + 방법론 설명서가 한 묶음으로 들어있다. 새 프로젝트 시작 시 여기서 출발.
+
+> 5 스킬의 정본은 자산 모음 [cc-skills-repo](https://github.com/chanshin0/cc-skills-repo) 에 있다. 이 레포의 사본은 scenario-first 묶음의 완결성을 위한 것.
 
 ## 설치
 
 ```bash
-# init 스킬을 Claude Code 스킬 디렉터리로 심볼릭 링크
-ln -s "$PWD/scenario-first-init" ~/.claude/skills/scenario-first-init
+# 6개 스킬을 Claude Code 스킬 디렉터리로 심볼릭 링크
+for d in scenario-first-init scenario-first-throw scenario-first-expand \
+         scenario-first-spec scenario-first-goal scenario-first-review; do
+  ln -s "$PWD/$d" "$HOME/.claude/skills/$d"
+done
+```
 
-# 5 스킬은 cc-skills-repo 에서 따로 (각자 동기화 방식대로)
+## 새 프로젝트 시작
+
+```bash
+mkdir ~/Projects/my-new-idea && cd ~/Projects/my-new-idea
+git init
+/scenario-first-init                    # 하네스 v2 스캐폴딩
+/scenario-first-throw "<첫 시나리오>"
 ```
 
 ---
