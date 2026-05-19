@@ -4,8 +4,8 @@ slug: self-contained-migration
 date: 2026-05-19
 status: applied
 applied_commit:
-  sfd: (채워질 예정 — 이 ADR 가 들어간 commit hash)
-  plugify: (채워질 예정 — Plugify scenario-first 제거 commit hash)
+  sfd: 122349c
+  plugify: 9eddadc
 risk_smell: none
 ---
 
@@ -113,8 +113,10 @@ risk_smell: none.
 
 | 레포 | atomic commit 단위 | hash |
 |---|---|---|
-| SFD | "scenario-first: 자기완결 변환 (Plugify 정본 입주 + sfd-architect + EVOLUTION 통로 + BUDGET 폐기)" | (push 시 채움) |
-| Plugify | "scenario-first: 5 스킬 + 플러그인 제거 (SFD 자기완결 이전 — SFD #001)" | (push 시 채움) |
+| SFD | "refactor: scenario-first 자기완결 변환 — Plugify 정본 입주 + sfd-architect + EVOLUTION 통로 + BUDGET 폐기 (#001)" | `122349c` |
+| Plugify | "refactor: scenario-first 5 스킬 + 플러그인 제거 (SFD 자기완결 이전 — SFD EVOLUTION #001)" | `9eddadc` |
+
+> 본 ADR 의 hash 채움 commit (follow-up): 별도 hash — 변경 자체는 122349c 시점에 atomic 으로 적용됨.
 
 ## 7. 검증 체크리스트 (적용 후)
 
