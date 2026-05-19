@@ -83,14 +83,18 @@ ls .scenarios/ AGENTS.md CLAUDE.md init.sh .env.scenario .gitmessage 2>/dev/null
 .scenarios/
 ├── STATUS.md
 ├── HANDOFF.md
+├── SESSION-LOG.md          # 세션 단위 로그 (cycle 단위 STATUS와 차원 분리)
 ├── REGRESSION-POLICY.md
 ├── backlog.md
 ├── judge-rubric.md
-├── .backups/           # rerun 백업 통일 위치 (gitignore)
+├── rules.json              # 머신 판독 룰
+├── .backups/               # rerun 백업 통일 위치 (gitignore)
 ├── throws/
 ├── expanded/
-└── specs/              # specs/NNN/ 안에 PRD/ARCH/NONFUNC/OPS/GOAL/STUCK/REVIEW.md
-tests/e2e/              # goal이 scenario-NNN/ 으로 채움
+└── specs/
+    ├── _template/REVIEW.md # review 5단계가 NNN별로 복사해 채움
+    └── NNN/                # PRD/ARCH/NONFUNC/OPS/GOAL/STUCK/REVIEW.md
+tests/e2e/                  # goal이 scenario-NNN/ 으로 채움
 ```
 
 빈 디렉터리는 `.gitkeep`으로 commit 가능하게.
@@ -107,11 +111,14 @@ tests/e2e/              # goal이 scenario-NNN/ 으로 채움
 | `env.scenario` | `./.env.scenario` | `SCENARIO_GOAL_BUDGET` 등 |
 | `gitmessage` | `./.gitmessage` | walking skeleton commit 규약 |
 | `gitignore-additions` | `./.gitignore` (append) | `.scenarios/.backups/`, `.env.scenario` 등 |
-| `STATUS.md` | `.scenarios/STATUS.md` | IN_PROGRESS + WAITING_ON_USER + cycle 목록 |
+| `STATUS.md` | `.scenarios/STATUS.md` | IN_PROGRESS + WAITING_ON_USER + cycle lock 강조 |
 | `HANDOFF.md` | `.scenarios/HANDOFF.md` | 세션 인계 |
+| `SESSION-LOG.md` | `.scenarios/SESSION-LOG.md` | 세션 단위 로그 (cycle 단위 STATUS.md와 차원 분리) |
 | `REGRESSION-POLICY.md` | `.scenarios/REGRESSION-POLICY.md` | 누적 풀 통과 조건 |
 | `backlog.md` | `.scenarios/backlog.md` | Story 카드 + 보류 결정 풀 |
 | `judge-rubric.md` | `.scenarios/judge-rubric.md` | LLM judge 공통 rubric |
+| `REVIEW.md` | `.scenarios/specs/_template/REVIEW.md` | review 산출물 템플릿 (6범주 평가 + evidence 슬롯). review 5단계가 NNN별로 복사해 사용. |
+| `rules.json` | `.scenarios/rules.json` | 머신 판독 룰 (single_active_cycle, passing_requires_evidence 등) |
 
 복사 후 placeholder 치환:
 - `{{PROJECT_NAME}}` → cwd basename

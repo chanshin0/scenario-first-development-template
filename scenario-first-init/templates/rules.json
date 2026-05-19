@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "comment": "scenario-first 머신 판독 룰. AGENTS.md 본문은 사람용, 이 파일은 hook 검증용. 둘 다 동일한 원칙을 표현.",
+  "rules": {
+    "single_active_cycle": {
+      "value": true,
+      "description": "STATUS.md IN_PROGRESS 라인은 단일 NNN만. cycle lock — 룰 3.4.",
+      "check": "STATUS.md 의 'IN_PROGRESS:' 라인이 (none) 또는 단일 NNN 인지 grep"
+    },
+    "passing_requires_evidence": {
+      "value": true,
+      "min_evidence_count": 2,
+      "description": "REVIEW.md 에 evidence 슬롯 최소 2개 채워져야 review_status=passed 표시 가능.",
+      "check": "REVIEW.md 의 '## 3. Evidence' 섹션에서 [x] 체크 또는 채워진 경로가 2개 이상인지"
+    },
+    "do_not_skip_verification": {
+      "value": true,
+      "description": "goal 4단계 자동 게이트 (./init.sh verify) 가 실제로 실행되고 PASS 한 증거가 GOAL.md 에 있어야 review 진행 가능.",
+      "check": "GOAL.md 에 'iteration 수' + 'PASS' 또는 'STUCK.md' 존재"
+    },
+    "single_direction_pipeline": {
+      "value": true,
+      "description": "throw → expand → spec → goal → review. 역방향 동기 금지.",
+      "check": "각 산출물의 frontmatter 가 이전 단계의 ID를 가리킴 (throw_id, spec_id 등)"
+    },
+    "no_persona_in_throw": {
+      "value": true,
+      "description": "Job Story 에 페르소나 표현 ('개발자가', '관리자가') 금지. 상황으로만.",
+      "check": "throws/NNN-*.md 의 'When' 절에 페르소나 키워드 없는지 검사"
+    },
+    "regression_pool_passed_only": {
+      "value": true,
+      "description": "누적 게이트 풀은 review_status=passed 인 NNN만. REGRESSION-POLICY.md 의 통과 조건.",
+      "check": "STATUS.md '## 누적 게이트 풀' 섹션의 NNN 들이 expanded/NNN-*.md 에서 review_status=passed 인지"
+    }
+  },
+  "enforcement": {
+    "mode": "advisory",
+    "comment": "v2 default 는 advisory — 위반 시 경고만. hook 도입 시 'blocking' 으로 승격 검토.",
+    "options": ["advisory", "blocking"]
+  },
+  "version": "v2"
+}
