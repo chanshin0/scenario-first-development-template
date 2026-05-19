@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "extraKnownMarketplaces": {
+    "plugify": {
+      "source": {
+        "source": "github",
+        "repo": "chanshin0/Plugify"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "scenario-first@plugify": true
+  }
+}

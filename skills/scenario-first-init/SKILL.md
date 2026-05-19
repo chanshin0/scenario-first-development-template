@@ -100,6 +100,7 @@ ls .harness/ scenarios/ AGENTS.md CLAUDE.md init.sh .env.scenario .gitmessage 2>
 | `.harness/rules.json` | `.harness/rules.json` | 머신 판독 룰 |
 | `.harness/templates/REVIEW.md` | `.harness/templates/REVIEW.md` | review 5단계 NNN별 복사용 |
 | `.harness/templates/gitignore-additions` | (append to `.gitignore`) | 하네스 관련 ignore 항목 |
+| `.claude/settings.json` | `.claude/settings.json` | Plugify 마켓플레이스 + scenario-first 플러그인 자동 등록 (trust dialog 후 Claude Code 가 자동 install) |
 | `scenarios/throws/.gitkeep` | `scenarios/throws/.gitkeep` | (디렉터리 시드) |
 | `scenarios/expanded/.gitkeep` | `scenarios/expanded/.gitkeep` | (디렉터리 시드) |
 | `scenarios/specs/.gitkeep` | `scenarios/specs/.gitkeep` | (디렉터리 시드) |
@@ -168,6 +169,7 @@ echo "다음: git add . && git commit -m 'chore: scenario-first 하네스 init'"
 - AGENTS.md, CLAUDE.md, init.sh, .env.scenario, .gitmessage
 - .harness/{STATUS,SESSION-LOG,HANDOFF,REGRESSION-POLICY,backlog,judge-rubric}.md
 - .harness/rules.json, .harness/templates/REVIEW.md
+- .claude/settings.json (Plugify 마켓플레이스 + scenario-first 플러그인 자동 등록)
 - scenarios/{throws,expanded,specs}/, tests/e2e/
 
 E2E 프레임워크: Playwright (설치 완료)
@@ -177,7 +179,8 @@ git 템플릿: 등록됨
   1. AGENTS.md 한 번 훑어 운영 룰 확인
   2. .env.scenario 의 SCENARIO_GOAL_BUDGET 조정 (기본 $5)
   3. git add . && git commit -m 'chore: scenario-first 하네스 init'
-  4. /scenario-first-throw "<첫 시나리오>"
+  4. Claude Code 재시작 → trust dialog 수락 → scenario-first@plugify 자동 install
+  5. /scenario-first-throw "<첫 시나리오>"
 ```
 
 ## 산출
