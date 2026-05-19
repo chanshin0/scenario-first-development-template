@@ -4,7 +4,16 @@
 
 5개의 Claude Code 스킬 + 1개의 init 스킬로 구성된 결정성 있는 개발 파이프라인. Job Story 부터 GWT 자동 게이트까지 단방향으로 흐르며, 매 cycle 같은 절차를 반복해서 즉흥적 분해의 비용을 0으로 만든다.
 
-이 레포는 **방법론의 설명서**다. 도구(스킬) 자체는 [cc-skills-repo](https://github.com/chanshin0/cc-skills-repo) 의 `skills/scenario-first-*/` 에 있다.
+이 레포는 **방법론 설명서 + `scenario-first-init` 스킬** 을 담는다. 나머지 5 스킬 (`throw`/`expand`/`spec`/`goal`/`review`) 은 [cc-skills-repo](https://github.com/chanshin0/cc-skills-repo) 의 `skills/scenario-first-*/` 에 있다.
+
+## 설치
+
+```bash
+# init 스킬을 Claude Code 스킬 디렉터리로 심볼릭 링크
+ln -s "$PWD/scenario-first-init" ~/.claude/skills/scenario-first-init
+
+# 5 스킬은 cc-skills-repo 에서 따로 (각자 동기화 방식대로)
+```
 
 ---
 

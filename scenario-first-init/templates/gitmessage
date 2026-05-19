@@ -1,0 +1,21 @@
+# <type>: scenario-NNN.X.Y <한 줄 요약>
+#
+# 본문 — 왜 이 commit 인지 (어떤 GWT 시나리오를 통과시키려는지)
+#
+# Refs: .scenarios/specs/NNN/PRD.md, scenario-NNN.X.Y
+#
+# === scenario-first commit 규약 ===
+#
+# - 1 walking skeleton 동작 = 1 commit (scenario-first-goal 4단계 강제)
+# - 1행 제목: <type>: scenario-NNN.X.Y <요약>
+#     type: feat | fix | refactor | test | chore | docs
+#     NNN.X.Y = 시나리오 ID (NNN.backbone.step.example)
+# - 본문은 "왜" (Job Story의 so I can ... 인용 권장)
+# - Refs: 항상 PRD.md + 시나리오 ID
+#
+# 예:
+#   feat: scenario-007.2.1 검색 입력창 렌더링
+#
+#   so I can 키워드로 빠르게 찾기 — walking skeleton 첫 commit.
+#
+#   Refs: .scenarios/specs/007/PRD.md, scenario-007.2.1
