@@ -4,22 +4,26 @@
 
 5개의 Claude Code 스킬 + 1개의 init 스킬로 구성된 결정성 있는 개발 파이프라인. Job Story 부터 GWT 자동 게이트까지 단방향으로 흐르며, 매 cycle 같은 절차를 반복해서 즉흥적 분해의 비용을 0으로 만든다.
 
-이 레포는 **활성 하네스 적용 상태** 의 새 아이디어 구현 스캐폴드 다. 6개 스킬(`init` + `throw`/`expand`/`spec`/`goal`/`review`) + 하네스 layer + 방법론 설명서가 한 묶음으로 들어있다. 새 아이디어 시작 시 여기서 출발.
+이 레포는 **활성 하네스 적용 상태** 의 새 아이디어 구현 스캐폴드 다. init 스킬 + 하네스 layer + 방법론 설명서가 들어있다. 새 아이디어 시작 시 여기서 출발.
 
-> 5 스킬의 정본은 자산 모음 [cc-skills-repo](https://github.com/chanshin0/cc-skills-repo) 에 있다. 이 레포의 사본은 scenario-first 묶음의 완결성을 위한 것.
+> 5 스킬(`throw`/`expand`/`spec`/`goal`/`review`) 의 정본은 마켓플레이스 [Plugify](https://github.com/chanshin0/cc-skills-repo) 의 `scenario-first` 플러그인에 있다. 이 레포에는 init 스킬만 두고, 5 스킬은 플러그인 install 로 받는다 — 사본 동기화 부담 0.
 
 ## 설치
 
 ```bash
-# 6개 스킬을 Claude Code 스킬 디렉터리로 심볼릭 링크
-for d in scenario-first-init scenario-first-throw scenario-first-expand \
-         scenario-first-spec scenario-first-goal scenario-first-review; do
-  ln -s "$PWD/skills/$d" "$HOME/.claude/skills/$d"
-done
+# 1. 5 스킬은 Plugify 마켓플레이스에서 install
+claude plugin marketplace add chanshin0/cc-skills-repo
+claude plugin install scenario-first@plugify
+#   → /scenario-first:scenario-first-throw 등 5개 사용 가능
 
-# 시드 출처를 환경변수로
+# 2. init 스킬은 이 레포에서 symlink
+ln -s "$PWD/skills/scenario-first-init" "$HOME/.claude/skills/scenario-first-init"
+
+# 3. 시드 출처를 환경변수로 (init 이 사용)
 export SCENARIO_FIRST_HOME="$PWD"
 ```
+
+> 향후 init 도 Plugify 의 scenario-first 플러그인에 합칠 수 있다. 현재 분리 이유: init 은 이 레포의 `.harness/` / `scenarios/` 시드를 직접 복사하므로 레포 위치(`$SCENARIO_FIRST_HOME`)가 필요.
 
 ## 새 프로젝트 시작 (두 가지 방법)
 
