@@ -31,9 +31,9 @@ export SCENARIO_FIRST_HOME="$PWD"
 
 ```bash
 mkdir ~/Projects/my-new-idea && cd ~/Projects/my-new-idea
-git init
-/scenario-first-init                    # 시드 whitelist 복사 + E2E 결정
-/scenario-first-throw "<첫 시나리오>"
+# 여기서 Claude Code 켜기
+/scenario-first-init                    # git init + 시드 whitelist 복사 + E2E 결정 + Plugify 자동 등록
+/scenario-first:scenario-first-throw "<첫 시나리오>"
 ```
 
 ### B. 수동 cp -r
