@@ -82,6 +82,20 @@ ls .harness/ scenarios/ AGENTS.md CLAUDE.md init.sh .env.scenario .gitmessage 2>
 
 결정 시 "지금 설치할까요?" 확인. 동의하면 매니페스트에 추가 + 설치 실행. 거부하면 init.sh 안에 설치 명령만 남기고 실행 안 함.
 
+#### 패키지 매니저 선택 (JS/TS 진영)
+
+`command -v pnpm` 으로 우선 점검. 있으면 **pnpm 사용 (default)** — 속도·디스크 효율·strict 의존성 해결로 npm 보다 우선.
+
+| 매니페스트 상황 | 명령 |
+|---|---|
+| `pnpm-lock.yaml` 있음 또는 pnpm 설치됨 | `pnpm add -D <pkg>` |
+| `yarn.lock` 있음 | `yarn add -D <pkg>` |
+| 위 둘 다 없고 npm 만 가능 | `npm install --save-dev <pkg>` |
+
+설치 후 lockfile 도 함께 commit 대상에 포함. `.gitignore` 의 `node_modules/` 는 시드에 이미 있음.
+
+Python 진영(`pytest-bdd`, `behave`): `uv add` 또는 `pip install` (가상환경 권장).
+
 ### 3. 시드 whitelist 복사
 
 `$SCENARIO_FIRST_HOME` 의 시드 파일/디렉터리를 cwd 로 복사. **기존 파일 보존** (`--force` 시 백업 후 덮어쓰기).
