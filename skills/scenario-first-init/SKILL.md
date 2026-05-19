@@ -195,7 +195,7 @@ git 템플릿: 등록됨
 
 다음 단계:
   1. AGENTS.md 한 번 훑어 운영 룰 확인
-  2. .env.scenario 의 SCENARIO_GOAL_BUDGET 조정 (기본 $5)
+  2. .env.scenario 의 stuck detection 3종 cap (STUCK_RETRIES / NO_PROGRESS / MAX_ITERATIONS) 필요 시 조정
   3. git add . && git commit -m 'chore: scenario-first 하네스 init'
   4. Claude Code 재시작 → trust dialog 수락 → scenario-first@plugify 자동 install
   5. /scenario-first-throw "<첫 시나리오>"
