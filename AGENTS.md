@@ -49,7 +49,7 @@ git log --oneline -5
 
 | 단계 | 스킬 | 산출 |
 |---|---|---|
-| 0 | `/scenario-first-init` | 이 파일 + `scenarios/` 구조 + env + git 후크 (1회) |
+| 0 | `/scenario-first-init` | (선택) clone 정리 — placeholder 치환 + `.env.scenario` 생성 + E2E 결정 + SFD 메타 제거 |
 | 1 | `/scenario-first-throw "<자유 텍스트>"` | `scenarios/throws/NNN-*.md` |
 | 2 | `/scenario-first-expand <NNN>` | `scenarios/expanded/NNN-*.md` (USM + Example Mapping + GWT) |
 | 3 | `/scenario-first-spec <NNN>` | `scenarios/specs/NNN/{PRD,ARCHITECTURE,NONFUNC,OPS}.md` |
