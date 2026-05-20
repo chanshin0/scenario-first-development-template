@@ -2,13 +2,23 @@
 
 *Read this in [한국어](README.ko.md).*
 
-### The scenario you write is the intent. The experience you get is the proof. Development is making the two match.
+> ### We build what you had in mind.
 
-When AI churns out code cheaply, the hard part isn't *writing* it — it's knowing you built the *right* thing.
+Powerful agent models tore down the barrier to building software. So what *is* "development" to a normal person? Not a dry, academic definition. **"Just make it the way I pictured it."** — that's the development they actually want.
 
-Code gets rewritten and specs get deprecated, but "this is how I want to use it" stays relatively stable. Scenario-First treats that one line as the Source of Truth and works **backward** — scenario → spec → code.
+This system reflects exactly that need.
 
-Whether it passes is decided by an automatic gate, not by a human asking "is this right?" — and the loop closes only when **you actually use it**, so you never pile up output that *looks* validated but is useless.
+**Throw the idea you have in mind.** A structured pipeline catches it and turns it into a working thing. You don't need to know *anything* about what happens inside — just check one thing: did the idea you threw ("this is how I want to use it") come back, intact, in the result?
+
+<details>
+<summary>Still curious what happens inside?</summary>
+
+1. It **unfolds** your idea into the smallest MVP that can stand on its own.
+2. It **locks** that into a concrete spec — and makes it a promise.
+3. It **writes code until your scenario passes.**
+4. Now **press the button** — is this what you wanted?
+
+</details>
 
 This repo is a **GitHub template**. Click "Use this template" and the 6 skills + meta-agent are already in your clone — no external install, no marketplace, no trust dialog.
 
