@@ -251,3 +251,9 @@ Sometimes, while building with this template, you want to change not your *proje
 | Toyota 5 Whys | review-failure routing |
 | Walking Skeleton (Alistair Cockburn) | the gate unit |
 | Harness Engineering | `.harness/` as a closed-loop work system for the agent |
+
+---
+
+## License
+
+MIT © 2026 chanshin0 — see [LICENSE](LICENSE).
