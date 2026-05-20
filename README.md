@@ -2,18 +2,18 @@
 
 *Read this in [한국어](README.ko.md).*
 
-> ### We build what you had in mind.
+> ### We build from how you want to use it.
 
-The barrier to building software is gone — anyone can vibe-code now. So what *is* "development" to a **normal person** (*who was never taught computational thinking*)? Not a dry, academic definition. **"Just make it the way I pictured it."** — that's the development they actually want.
+The barrier to building software is gone — anyone can vibe-code now. So what *is* "development" to a **normal person** (*who was never taught computational thinking*)? Not a dry, academic definition. **"Make it work the way I want to use it."** — that's the development they actually want.
 
-This system reflects exactly that need.
+This system reflects exactly that need. What you had in mind is too broad to use as-is: it might include taste, guesses, feature ideas, and half-formed expectations. SFD keeps the part that can be stated, tested, and recognized later: **"this is how I want to use it."** That usage scenario is the source of truth.
 
-**Throw the idea you have in mind.** A structured pipeline catches it and turns it into a working thing. You don't need to know *anything* about what happens inside — just check one thing: did the idea you threw ("this is how I want to use it") come back, intact, in the result?
+**Throw the way you want to use it.** A structured pipeline catches that scenario and turns it into a working thing. You don't need to know *anything* about what happens inside — just check one thing: when you try that same scenario, does the result behave the way you meant?
 
 <details>
 <summary>Still curious what happens inside?</summary>
 
-1. It **unfolds** your idea into the smallest MVP that can stand on its own.
+1. It **unfolds** that scenario into the smallest MVP that can stand on its own.
 2. It **locks** that into a concrete spec — and makes it a promise.
 3. It **writes code until your scenario passes.**
 4. Now **press the button** — is this what you wanted?
@@ -43,7 +43,7 @@ That's it. Flow straight through `throw`(1) → `expand`(2) → `spec`(3).
 ## The 5-stage flow
 
 ```
-your head
+your usage intent
      │ "this is how I want to use it"
      ▼
 ┌────────────┐  Job Story (When / I want to / so I can)
@@ -82,9 +82,9 @@ your head
 
 ## Design philosophy — 4 pillars
 
-### 1. The answer isn't code or spec — it's "how it's used"
+### 1. The answer isn't code or spec — it's "how I want to use it"
 
-Code gets rewritten; specs get deprecated. But *"this is how I want to use it"* stays relatively stable. So the Source of Truth lives in that **narrative**, externalized into `scenarios/`.
+Code gets rewritten; specs get deprecated. But *"this is how I want to use it"* stays relatively stable. So the Source of Truth lives in that **usage scenario**, externalized into `scenarios/`.
 
 Why **Job Story**, not User Story:
 
@@ -136,7 +136,7 @@ Skip this stage and stages 1–4 become meaningless.
 
 ## When to use / when not
 
-**Good fit** — single-developer mode where you build, use, and evaluate yourself. Tools/apps where "how it's used" is relatively stable. Evolutionary development filling backbone slices cycle by cycle.
+**Good fit** — single-developer mode where you build, use, and evaluate yourself. Tools/apps where "how I want to use it" is relatively stable. When you already have one core usage scenario and want to validate a thin MVP quickly. Evolutionary development filling backbone slices cycle by cycle.
 
 **Poor fit**:
 
@@ -197,7 +197,7 @@ my-project/
     └── agents/sfd-architect.md      # harness-change review channel
 ```
 
-**Separation of duties**: `scenarios/` = SoT (the user's thinking, stage by stage; appended each stage). `.harness/` = operating meta (state, policy, logs).
+**Separation of duties**: `scenarios/` = SoT (the user's usage intent, stage by stage; appended each stage). `.harness/` = operating meta (state, policy, logs).
 
 </details>
 
