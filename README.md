@@ -4,7 +4,7 @@
 
 > ### We build what you had in mind.
 
-Powerful agent models tore down the barrier to building software. So what *is* "development" to a normal person? Not a dry, academic definition. **"Just make it the way I pictured it."** — that's the development they actually want.
+Powerful agent models tore down the barrier to building software. So what *is* "development" to a **normal person** — not the developer wired tight with logic and reason, but everyone else? Not a dry, academic definition. **"Just make it the way I pictured it."** — that's the development they actually want.
 
 This system reflects exactly that need.
 
