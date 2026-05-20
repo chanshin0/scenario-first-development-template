@@ -190,7 +190,3 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 - evidence 없이 review_status를 passed 로 표시 (룰: passing_requires_evidence)
 - clean-state 체크 미통과 상태에서 commit
 - **하네스(템플릿 레이어) 변경을 sfd-architect 검토 없이 즉흥 적용** (룰 3.9)
-
----
-
-> 이 하네스는 [Scenario-First Development](https://github.com/chanshin0/scenario-first-development-template) (© chanshin0, MIT) 로 스캐폴딩됐다. 크레딧이 불필요하면 이 줄을 지워도 된다.
