@@ -4,7 +4,11 @@
 
 ### The scenario you write is the intent. The experience you get is the proof. Development is making the two match.
 
-When AI churns out code cheaply, the hard part isn't *writing* it — it's knowing you built the *right* thing. Code gets rewritten and specs get deprecated, but "this is how I want to use it" stays relatively stable. Scenario-First treats that one line as the Source of Truth and works **backward** — scenario → spec → code. Whether it passes is decided by an automatic gate, not by a human asking "is this right?", and the loop closes only when **you actually use it** — so you never pile up output that *looks* validated but is useless.
+When AI churns out code cheaply, the hard part isn't *writing* it — it's knowing you built the *right* thing.
+
+Code gets rewritten and specs get deprecated, but "this is how I want to use it" stays relatively stable. Scenario-First treats that one line as the Source of Truth and works **backward** — scenario → spec → code.
+
+Whether it passes is decided by an automatic gate, not by a human asking "is this right?" — and the loop closes only when **you actually use it**, so you never pile up output that *looks* validated but is useless.
 
 This repo is a **GitHub template**. Click "Use this template" and the 6 skills + meta-agent are already in your clone — no external install, no marketplace, no trust dialog.
 
