@@ -4,7 +4,7 @@ slug: from-template-spec-and-clone-state-docs
 date: 2026-05-20
 status: applied
 applied_commit:
-  sfd: (이 ADR 가 들어간 commit hash)
+  sfd: 1d6b815
 risk_smell: none
 ---
 
@@ -70,7 +70,7 @@ risk_smell: none.
 
 | 레포 | atomic commit 단위 | hash |
 |---|---|---|
-| SFD | "docs: --from-template 정식 정의 + clone 상태/정리 설명 — ADR 005" | (채움) |
+| SFD | "docs: --from-template 정식 정의 + clone 상태/정리 설명 — ADR 005" | `1d6b815` |
 
 ## 7. 검증 체크리스트 (적용 후)
 
