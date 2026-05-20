@@ -4,7 +4,7 @@ slug: stage-numbering-unification
 date: 2026-05-20
 status: applied
 applied_commit:
-  sfd: (이 ADR 가 들어간 commit hash)
+  sfd: 68d72bc
 risk_smell: none
 ---
 
@@ -94,7 +94,7 @@ risk_smell: none.
 
 | 레포 | atomic commit 단위 | hash |
 |---|---|---|
-| SFD | "docs: 파이프라인 단계 번호 정수 1–5 통일 (expand=2, review=5) — ADR 003" | (채움) |
+| SFD | "docs: 파이프라인 단계 번호 정수 1–5 통일 (expand=2, review=5) — ADR 003" | `68d72bc` |
 
 ## 7. 검증 체크리스트 (적용 후)
 
