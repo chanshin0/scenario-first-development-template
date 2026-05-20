@@ -1,6 +1,6 @@
 ---
 name: scenario-first-throw
-description: 시나리오-First 개발 1단계. 사용자가 떠올린 "쓰는 모습"을 Job Story 1~2개로 캡처. `When <상황>, I want to <동기>, so I can <결과>` 형식. User Story의 페르소나·사후합리화·trigger 누락 약점을 거부하고 상황(trigger)을 명시화한다. 자유 텍스트로 던지면 Claude가 Job Story 1~2개로 변환·확인. 결과는 `scenarios/throws/`에 저장. 하네스 layer는 `/scenario-first-init` 으로 사전 설치 필수.
+description: 시나리오-First 개발 1단계. 사용자가 떠올린 "쓰는 모습"을 Job Story 1~2개로 캡처. `When <상황>, I want to <동기>, so I can <결과>` 형식. User Story의 페르소나·사후합리화·trigger 누락 약점을 거부하고 상황(trigger)을 명시화한다. 자유 텍스트로 던지면 Claude가 Job Story 1~2개로 변환·확인. 결과는 `scenarios/throws/`에 저장. 하네스 layer 는 template clone 에 이미 포함 — 바로 호출 가능. 빈 디렉터리에서 시작할 때만 `/scenario-first-init` 선행.
 ---
 
 # scenario-first-throw

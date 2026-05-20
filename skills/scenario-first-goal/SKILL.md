@@ -48,13 +48,22 @@ test -f scenarios/expanded/NNN-*.md || {
   exit 1
 }
 
-# 4. env 로드 + E2E 명령 확인 (init이 .env.scenario 에 박아둠)
+# 4. env 로드 + E2E 명령 확인
 source .env.scenario 2>/dev/null || true
-test -n "${SCENARIO_E2E_CMD:-}" || {
-  echo "ERROR: SCENARIO_E2E_CMD 미설정 — /scenario-first-init 다시 또는 .env.scenario 확인"
-  exit 1
-}
+# 미설정이면 에러 대신 0번(E2E inline 결정)으로 — init 안 돌린 template clone 대응
 ```
+
+### 0. E2E 프레임워크 결정 (미설정 시 1회 — init 안 돌렸으면 여기서)
+
+`SCENARIO_E2E_CMD` 가 비어 있으면 (`.env.scenario` 없거나 미설정), 이 단계에서 **한 번** 결정한다. init 의 E2E 결정 로직과 동일:
+
+1. 매니페스트에서 기존 E2E 감지 (`grep -E "(playwright|cypress|cucumber|pytest-bdd|behave)" package.json pyproject.toml`)
+2. 감지된 게 있으면 채택, 없으면 사용자에게 1회 묻기 (Playwright=TS/JS default, behave=Python 등)
+3. "지금 설치할까요?" 확인 후 매니페스트 추가 + 설치
+4. `.env.scenario` 생성/갱신 (`.env.scenario.example` 기준): `SCENARIO_E2E_FRAMEWORK` + `SCENARIO_E2E_CMD` + `SCENARIO_START_CMD` + 진전 신호 3종 채움
+5. placeholder (`{{E2E_FRAMEWORK}}` 등) 가 AGENTS.md 등에 남아있으면 함께 치환
+
+이미 설정돼 있으면 (init 을 돌렸거나 이전 goal 에서 정함) 이 단계 건너뜀.
 
 ## Workflow
 
@@ -220,6 +229,6 @@ Next: /scenario-first-review NNN --triage
 - LLM judge 가 `.harness/judge-rubric.md` 양식 벗어남
 - `--no-verify`, `git push --force` 등 안전장치 우회
 - 시나리오 임의 수정 — 게이트가 정답이므로 시나리오를 못 통과한다고 시나리오를 깎으면 안 됨 (5단계에서 사용자가 결정)
-- E2E 프레임워크 결정을 이 단계에서 묻기 (init이 0단계에서 결정 — 미설정이면 init 다시)
+- E2E 프레임워크가 **이미 설정돼 있는데** 다시 묻기 (init 또는 이전 goal 이 정했으면 그대로 사용). 단 미설정이면 0번에서 1회 결정은 정상 (init 강제 아님)
 - 하네스 미설치 상태에서 강행
 - STATUS.md 갱신 건너뛰기
