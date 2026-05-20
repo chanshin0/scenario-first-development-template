@@ -4,7 +4,7 @@ slug: init-optional-clone-and-throw
 date: 2026-05-20
 status: applied
 applied_commit:
-  sfd: (이 ADR 가 들어간 commit hash)
+  sfd: abed466
 risk_smell: none
 ---
 
@@ -65,7 +65,7 @@ risk_smell: none.
 
 | 레포 | atomic commit 단위 | hash |
 |---|---|---|
-| SFD | "feat: clone→throw 기본 진입 (init 선택화 + goal E2E inline) — ADR 004" | (채움) |
+| SFD | "feat: clone→throw 기본 진입 (init 선택화 + goal E2E inline) — ADR 004" | `abed466` |
 
 ## 7. 검증 체크리스트 (적용 후)
 
