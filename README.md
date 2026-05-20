@@ -4,7 +4,7 @@
 
 > ### We build what you had in mind.
 
-Powerful agent models tore down the barrier to building software. So what *is* "development" to a **normal person** (*who was never taught computational thinking*)? Not a dry, academic definition. **"Just make it the way I pictured it."** — that's the development they actually want.
+The barrier to building software is gone — anyone can vibe-code now. So what *is* "development" to a **normal person** (*who was never taught computational thinking*)? Not a dry, academic definition. **"Just make it the way I pictured it."** — that's the development they actually want.
 
 This system reflects exactly that need.
 
@@ -37,6 +37,8 @@ That's it. Flow straight through `throw`(1) → `expand`(2) → `spec`(3).
 > A fresh clone carries a little of SFD's own residue (unsubstituted placeholders, this README). If it bothers you, `/scenario-first-init` clears it in one shot — optional and idempotent. (See [clone cleanup](#clone-cleanup) below.)
 
 ---
+
+> **That's all you need to know.** Everything below is for people who want to build it themselves — or are just curious what happens inside.
 
 ## The 5-stage flow
 
