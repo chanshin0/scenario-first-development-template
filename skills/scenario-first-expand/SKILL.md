@@ -1,6 +1,6 @@
 ---
 name: scenario-first-expand
-description: 시나리오-First 개발 1.5단계. Job Story를 (a) User Story Mapping의 backbone + walking skeleton, (b) Example Mapping의 Rules + Examples + Questions로 확장하고, Questions는 메타 인터뷰로 사용자에게 되묻고, Examples는 Given-When-Then으로 변환해 자동 게이트 단위를 확정한다. USM(Jeff Patton 2014) + Example Mapping(Matt Wynne 2015) + Dan North의 BDD GWT(2006)를 결합한 결정성 있는 확장 절차.
+description: 시나리오-First 개발 2단계. Job Story를 (a) User Story Mapping의 backbone + walking skeleton, (b) Example Mapping의 Rules + Examples + Questions로 확장하고, Questions는 메타 인터뷰로 사용자에게 되묻고, Examples는 Given-When-Then으로 변환해 자동 게이트 단위를 확정한다. USM(Jeff Patton 2014) + Example Mapping(Matt Wynne 2015) + Dan North의 BDD GWT(2006)를 결합한 결정성 있는 확장 절차.
 ---
 
 # scenario-first-expand
