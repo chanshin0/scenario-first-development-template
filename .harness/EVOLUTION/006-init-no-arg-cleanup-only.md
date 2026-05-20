@@ -4,7 +4,7 @@ slug: init-no-arg-cleanup-only
 date: 2026-05-20
 status: applied
 applied_commit:
-  sfd: (이 ADR 가 들어간 commit hash)
+  sfd: be7c2cc
 risk_smell: none
 ---
 
@@ -71,7 +71,7 @@ risk_smell: none.
 
 | 레포 | atomic commit 단위 | hash |
 |---|---|---|
-| SFD | "refactor: init 을 무인자 단일 정리로 축소 (복사 모드·B/C·인자 제거) — ADR 006" | (채움) |
+| SFD | "refactor: init 을 무인자 단일 정리로 축소 (복사 모드·B/C·인자 제거) — ADR 006" | `be7c2cc` |
 
 ## 7. 검증 체크리스트 (적용 후)
 
