@@ -147,7 +147,7 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 
 머신 검증: `.harness/rules.json` 의 `evolution_adr_required: true`. ADR 양식: `.harness/templates/EVOLUTION.md`. 누적 위치: `.harness/EVOLUTION/`.
 
-## 4. 세션 종료 워크플로 (반드시 5단계 + clean-state 6체크)
+## 4. 세션 종료 워크플로 (반드시 5단계 + clean-state 7체크)
 
 ```
 1. STATUS.md 갱신 — 이 세션에서 진행한 cycle 단계 추가
