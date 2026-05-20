@@ -132,13 +132,13 @@ failure 출력 분석:
 - `SCENARIO_GOAL_NO_PROGRESS` (기본 3) — 누적 풀 PASS assertion count 가 N회 iteration 동안 동결되면 STUCK (시도는 하는데 진전 0)
 - `SCENARIO_GOAL_MAX_ITERATIONS` (기본 10) — 누적 iteration N회 초과 시 STUCK (무한 루프 방지 안전망)
 
-#### 측정 로직 (명세 — 구현은 첫 cycle 후 EVOLUTION 002 로)
+#### 측정 로직 (명세 — 구현은 첫 cycle 후 하네스 변경으로)
 
 - 실패 hash: failure 의 `(scenario_id, assertion_message_normalized)` 튜플의 sha256 앞 8자
 - PASS assertion count: 누적 풀 + 이번 NNN 전체 테스트 실행 결과의 `passed` 합산 (E2E reporter=json 출력 파싱)
 - iteration: 한 번의 게이트 실행(`./init.sh verify`) = 1 iteration
 
-이 측정 로직 자체가 부정확하면 다음 EVOLUTION ADR 로 처리. 이번 단계에선 명세 정합.
+이 측정 로직 자체가 부정확하면 sfd-architect 통로로 처리 (룰 3.9). 이번 단계에선 명세 정합.
 
 Escalate 시: `scenarios/specs/NNN/STUCK.md`에 진단 기록 (트리거된 신호 + 측정값 + 마지막 N 회 commit hash + 마지막 실패 로그) 후 사용자에게 보고.
 

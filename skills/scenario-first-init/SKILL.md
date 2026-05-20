@@ -1,17 +1,17 @@
 ---
 name: scenario-first-init
-description: 시나리오-First 개발 0단계 (선택). "Use this template" 로 clone 한 사본에서 SFD 색을 벗기는 1회 정리 — placeholder 치환 + `.env.scenario` 생성 + E2E 프레임워크 결정 + SFD 메타(README·자기 ADR) 제거 + git commit.template 등록. 인자 없음. 안 돌려도 throw~spec 은 진행되고 E2E 는 goal 0번이 처리하므로 강제 아님 — 미관/정체성 노이즈를 미리 치우고 싶을 때만.
+description: 시나리오-First 개발 0단계 (선택). "Use this template" 로 clone 한 사본에서 SFD 색을 벗기는 1회 정리 — placeholder 치환 + `.env.scenario` 생성 + E2E 프레임워크 결정 + SFD 방법론 README 제거 + git commit.template 등록. 인자 없음. 안 돌려도 throw~spec 은 진행되고 E2E 는 goal 0번이 처리하므로 강제 아님 — 미관/정체성 노이즈를 미리 치우고 싶을 때만.
 ---
 
 # scenario-first-init
 
 ## 목적
 
-`Use this template` 로 clone 한 사본은 시드 파일이 **이미 cwd 에 다 있다** (6 스킬·`.harness`·`scenarios/` 빈 디렉터리 등). 단 SFD 자신의 색이 묻어있다 — placeholder 미치환, SFD README·자기 ADR. init 은 그 색만 벗기는 **1회 정리** 다.
+`Use this template` 로 clone 한 사본은 시드 파일이 **이미 cwd 에 다 있다** (6 스킬·`.harness`·`scenarios/` 빈 디렉터리 등). 단 SFD 자신의 색이 묻어있다 — placeholder 미치환, SFD 방법론 README. init 은 그 색만 벗기는 **1회 정리** 다.
 
 복사 안 함, 스캐폴딩 안 함 — clone 이 이미 했다. **인자 없음.** 멱등 (재실행 안전, 치울 게 없으면 no-op).
 
-> 선택이다. 안 돌려도 `throw`(1)~`spec`(3) 은 그대로 동작하고, E2E 는 처음 `goal`(4) 이 알아서 결정한다. init 은 placeholder·SFD README·ADR 이 굴러다니는 게 거슬릴 때 미리 치우는 용도.
+> 선택이다. 안 돌려도 `throw`(1)~`spec`(3) 은 그대로 동작하고, E2E 는 처음 `goal`(4) 이 알아서 결정한다. init 은 placeholder·SFD README 가 남아있는 게 거슬릴 때 미리 치우는 용도.
 
 ## 트리거
 
@@ -94,10 +94,9 @@ clone 사본에 묻어온 SFD **자신의** 것 — 새 프로젝트 것 아님:
 
 ```bash
 rm -f README.md                          # SFD 방법론 설명서 (네 프로젝트 README 아님)
-rm -f .harness/EVOLUTION/[0-9]*.md        # SFD 자신의 ADR (새 프로젝트는 001부터 자기 ADR 누적)
 ```
 
-**제거 안 함** (전부 그대로 쓰는 자산): `.claude/skills/`·`.claude/agents/`·`.harness/`(ADR 본문 제외)·`scenarios/`·`tests/e2e/`·`init.sh`·`.gitmessage`·`rules.json`·`AGENTS.md`·`CLAUDE.md`·`.env.scenario.example`·`templates/EVOLUTION.md`. `scenarios/`·`tests/e2e/` 는 `.gitkeep` 만 있어 비울 것 없음.
+**제거 안 함** (전부 그대로 쓰는 자산): `.claude/skills/`·`.claude/agents/`·`.harness/`·`scenarios/`·`tests/e2e/`·`init.sh`·`.gitmessage`·`rules.json`·`AGENTS.md`·`CLAUDE.md`·`.env.scenario.example`. `scenarios/`·`tests/e2e/` 는 `.gitkeep` 만 있어 비울 것 없음.
 
 ### 5. git 후속
 
@@ -114,7 +113,7 @@ grep -q "^.harness/.backups/$" .gitignore || echo ".harness/.backups/" >> .gitig
 
 - placeholder 치환: {{PROJECT_NAME}} → my-idea 등
 - .env.scenario 생성 (E2E: Playwright)
-- 제거: README.md (SFD 설명서), .harness/EVOLUTION/001~00N (SFD ADR)
+- 제거: README.md (SFD 방법론 설명서)
 - git commit.template 등록
 
 다음:
@@ -126,7 +125,7 @@ grep -q "^.harness/.backups/$" .gitignore || echo ".harness/.backups/" >> .gitig
 ## 산출
 
 - 치환된 `AGENTS.md` 등 + 생성된 `.env.scenario`
-- 제거된 SFD 메타 (`README.md`, 자기 ADR)
+- 제거된 SFD 메타 (`README.md`)
 - `git config --local commit.template` 등록 + 갱신된 `.gitignore`
 - 응답 요약
 

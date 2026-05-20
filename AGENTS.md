@@ -133,19 +133,20 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 
 이 외 jargon은 사용자의 `~/.claude/CLAUDE.md` "본인 언어 + (괄호 jargon)" 패턴.
 
-### 3.9 시스템 명세 변경 통로 (EVOLUTION ADR)
+### 3.9 하네스 변경 통로 (sfd-architect 검토)
 
-5 스킬·운영 룰·하네스 layer·init 스킬 자체·`.env.scenario.example` 변수 등 **SFD 시스템 자체의 명세** 를 바꾸려는 변경은 즉흥 변경 금지. 다음 절차:
+5 스킬·운영 룰·`rules.json`·하네스 layer·init 동작·`.env.scenario.example` 스키마·sfd-architect 자신 등 **하네스(템플릿 레이어) 자체** 를 바꾸려는 변경은 즉흥 변경 금지. "프로젝트 코드" 가 아니라 시스템을 건드릴 때의 안전 통로:
 
 1. 사용자가 `/sfd-architect "<변경 의도>"` 호출 (또는 슬래시 안 쓰는 에이전트는 `[SCENARIO:architect] <text>`)
-2. `sfd-architect` 에이전트가 영향 grep + 보호 룰 점검 + 정당성 평가 + `.harness/EVOLUTION/NNN-*.md` ADR 초안 작성
+2. `sfd-architect` 가 영향 grep + 보호 룰 점검 + 정당성 평가 → 검토 보고 + commit message 초안 (검토 전용 — 코드 못 건드림)
 3. 사용자 confirm
-4. 메인 에이전트가 실제 코드/문서 적용 + atomic commit + ADR 의 `applied_commit` 슬롯에 hash 박기
-5. 적용 후 변경 키워드 재grep 으로 부정합 0 확인
+4. 메인 에이전트가 적용 + atomic commit (commit message 에 변경/근거/영향 기록) + 변경 키워드 재grep 으로 부정합 0 확인
 
-대상이 cycle 산출물(`scenarios/throws|expanded|specs/*`, `tests/e2e/*`) 이면 ADR 불필요 — 5 스킬의 일.
+**기록은 commit message** — 별도 ADR 파일 안 만든다. 하네스 진화 기록은 git history 가 권위이고, template clone 은 히스토리를 미상속하므로 이 기록이 다운스트림으로 새지 않는다.
 
-머신 검증: `.harness/rules.json` 의 `evolution_adr_required: true`. ADR 양식: `.harness/templates/EVOLUTION.md`. 누적 위치: `.harness/EVOLUTION/`.
+대상이 cycle 산출물(`scenarios/throws|expanded|specs/*`, `tests/e2e/*`)·프로젝트 코드면 통로 밖 — 그냥 개발 또는 5 스킬의 일.
+
+머신 검증: `.harness/rules.json` 의 `harness_change_via_architect: true`.
 
 ## 4. 세션 종료 워크플로 (반드시 5단계 + clean-state 7체크)
 
@@ -165,7 +166,7 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 - [ ] STATUS.md 가 이번 세션 작업을 반영
 - [ ] expanded/spec/goal 단계 산출물 중 미완성인 상태로 남은 게 없음
 - [ ] 다음 세션이 manual 수정 없이 `./init.sh` 만으로 계속 가능
-- [ ] **EVOLUTION/ ADR 검증 통과** — 이번 세션이 시스템 명세를 건드렸다면 `.harness/EVOLUTION/NNN-*.md` ADR 동반 + `applied_commit` 채워짐 (룰 3.9)
+- [ ] **하네스 변경 통로 준수** — 이번 세션이 하네스(템플릿 레이어)를 건드렸다면 sfd-architect 검토를 거쳤고 commit message 에 변경/근거/영향이 기록됨 (룰 3.9)
 
 체크 안 끝나면 commit 안 함 — 깨끗하게 정리부터.
 
@@ -173,8 +174,8 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 
 - `.env.scenario` — 진전 신호 3종(`SCENARIO_GOAL_STUCK_RETRIES` / `NO_PROGRESS` / `MAX_ITERATIONS`) + E2E 명령. `source .env.scenario` 또는 direnv.
 - `.gitmessage` — walking skeleton commit 규약. 등록됨.
-- `.harness/rules.json` — 머신 판독 룰 (single_active_cycle, passing_requires_evidence, do_not_skip_verification, evolution_adr_required 등). hook 으로 검증 가능.
-- `.harness/EVOLUTION/` — 시스템 명세 변경 ADR 누적 (룰 3.9). 양식은 `.harness/templates/EVOLUTION.md`.
+- `.harness/rules.json` — 머신 판독 룰 (single_active_cycle, passing_requires_evidence, do_not_skip_verification, harness_change_via_architect 등). hook 으로 검증 가능.
+- 하네스 변경은 `sfd-architect` 통로 (룰 3.9). 기록은 commit message — 별도 ADR 파일 없음.
 - E2E 프레임워크: **{{E2E_FRAMEWORK}}** (실행: `./init.sh verify` 또는 직접 `{{E2E_TEST_CMD}}`)
 
 ## 6. 금지
@@ -188,4 +189,4 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 - 한 cycle 중 다른 cycle 동시 진행 (cycle lock — 룰 3.4)
 - evidence 없이 review_status를 passed 로 표시 (룰: passing_requires_evidence)
 - clean-state 체크 미통과 상태에서 commit
-- **시스템 명세 변경을 ADR 없이 즉흥 적용** (룰 3.9 — sfd-architect 통로 의무)
+- **하네스(템플릿 레이어) 변경을 sfd-architect 검토 없이 즉흥 적용** (룰 3.9)
