@@ -1,19 +1,19 @@
 ---
 name: scenario-first-init
-description: 시나리오-First 개발 0단계. 빈 cwd (또는 기존 레포)에 하네스 layer + 6 스킬(`init`/`throw`/`expand`/`spec`/`goal`/`review`) + sfd-architect 에이전트 + SoT 디렉터리를 스캐폴딩한다. scenario-first-development 시드 파일들(루트의 AGENTS.md/CLAUDE.md/init.sh + `.harness/` + `scenarios/` 빈 디렉터리 + `skills/scenario-first-*/SKILL.md` 6개 + `.claude/agents/sfd-architect.md`)을 cwd 의 적절한 위치로 복사하며, 실제 cycle 산출물·`.git`·README·MIGRATION-PLAN 은 제외. E2E 프레임워크 사전 결정·설치까지. 자기완결 — 외부 마켓플레이스 의존 없음.
+description: 시나리오-First 개발 0단계. 빈 cwd (또는 기존 레포)에 하네스 layer + 6 스킬(`init`/`throw`/`expand`/`spec`/`goal`/`review`) + sfd-architect 에이전트 + SoT 디렉터리를 스캐폴딩한다. scenario-first-development-template 시드 파일들(루트의 AGENTS.md/CLAUDE.md/init.sh + `.harness/` + `scenarios/` 빈 디렉터리 + `skills/scenario-first-*/SKILL.md` 6개 + `.claude/agents/sfd-architect.md`)을 cwd 의 적절한 위치로 복사하며, 실제 cycle 산출물·`.git`·README·MIGRATION-PLAN 은 제외. E2E 프레임워크 사전 결정·설치까지. 자기완결 — 외부 마켓플레이스 의존 없음.
 ---
 
 # scenario-first-init
 
 ## 목적
 
-`cp -r scenario-first-development my-idea` 의 자동화 + 안전판. 사용자가 빈 cwd 에서 호출하면 시드 파일만 골라서 복사 (`.git`, `README.md`, `MIGRATION-PLAN.md`, 실제 cycle 산출물 제외). 멱등 (기존 파일은 보존, `--force` 시 백업 후 덮어쓰기).
+`cp -r scenario-first-development-template my-idea` 의 자동화 + 안전판. 사용자가 빈 cwd 에서 호출하면 시드 파일만 골라서 복사 (`.git`, `README.md`, `MIGRATION-PLAN.md`, 실제 cycle 산출물 제외). 멱등 (기존 파일은 보존, `--force` 시 백업 후 덮어쓰기).
 
 원리:
-- 시드는 `scenario-first-development` 레포 자체에 활성 적용된 상태로 살아있음 → init 는 **whitelist 기반 복사** 만 (즉흥 생성 금지)
+- 시드는 `scenario-first-development-template` 레포 자체에 활성 적용된 상태로 살아있음 → init 는 **whitelist 기반 복사** 만 (즉흥 생성 금지)
 - 6 스킬 + sfd-architect 에이전트는 cwd 의 `.claude/skills/` + `.claude/agents/` 로 복사 → Claude Code 가 project-local 로 자동 인식 (마켓플레이스 install 불필요)
 - E2E 프레임워크는 `goal` 실행 시점이 아니라 **여기서 사전 결정** (cycle 중간 멈춤 방지)
-- 시드 출처는 `$SCENARIO_FIRST_HOME` 환경변수 (기본: `~/Projects/scenario-first-development`). GitHub template clone 한 사본에서 init 호출하면 cwd 자체가 시드 사본이므로 별도 `$SCENARIO_FIRST_HOME` 불필요 — `--from-template` 모드.
+- 시드 출처는 `$SCENARIO_FIRST_HOME` 환경변수 (기본: `~/Projects/scenario-first-development-template`). GitHub template clone 한 사본에서 init 호출하면 cwd 자체가 시드 사본이므로 별도 `$SCENARIO_FIRST_HOME` 불필요 — `--from-template` 모드.
 
 ## 트리거
 
@@ -38,7 +38,7 @@ if [ ! -d .git ]; then
 fi
 test -f package.json -o -f pyproject.toml -o -f Cargo.toml || echo "WARN: 프로젝트 매니페스트 없음 — 언어 결정 모호"
 test -d .harness && echo "INFO: .harness 이미 존재 — 보존 모드"
-SFH="${SCENARIO_FIRST_HOME:-$HOME/Projects/scenario-first-development}"
+SFH="${SCENARIO_FIRST_HOME:-$HOME/Projects/scenario-first-development-template}"
 test -d "$SFH" || { echo "ERROR: 시드 레포 없음 ($SFH). SCENARIO_FIRST_HOME 설정 또는 clone 필요"; exit 1; }
 ```
 
@@ -65,7 +65,7 @@ ls .harness/ scenarios/ AGENTS.md CLAUDE.md init.sh .env.scenario .gitmessage 2>
 - E2E:         없음 — 선택 필요
 - 기존 하네스: 없음
 - git:         초기화됨
-- 시드 출처:   ~/Projects/scenario-first-development
+- 시드 출처:   ~/Projects/scenario-first-development-template
 ```
 
 ### 2. E2E 프레임워크 결정 (1회)

@@ -22,7 +22,7 @@
 
 ```bash
 mkdir ~/Projects/my-new-idea && cd ~/Projects/my-new-idea
-export SCENARIO_FIRST_HOME=~/Projects/scenario-first-development
+export SCENARIO_FIRST_HOME=~/Projects/scenario-first-development-template
 # 여기서 Claude Code 켜기
 /scenario-first-init                       # git init + 시드 whitelist 복사 + E2E 결정
 # (재시작해서 cwd 의 `.claude/skills/` 인식)
@@ -32,7 +32,7 @@ export SCENARIO_FIRST_HOME=~/Projects/scenario-first-development
 ### C. 수동 cp -r
 
 ```bash
-cp -r ~/Projects/scenario-first-development ~/Projects/my-new-idea
+cp -r ~/Projects/scenario-first-development-template ~/Projects/my-new-idea
 cd ~/Projects/my-new-idea
 rm -rf .git README.md MIGRATION-PLAN.md    # 시드 아닌 것 제거
 rm -rf scenarios/throws/* scenarios/expanded/* scenarios/specs/*/   # 실제 cycle 산출물 제거
@@ -46,7 +46,7 @@ git init && ./init.sh
 
 ```bash
 cd ~/Projects/my-idea
-git -C ~/Projects/scenario-first-development pull
+git -C ~/Projects/scenario-first-development-template pull
 /scenario-first-init --check               # 어떤 시드가 변경됐는지 진단
 /scenario-first-init --force               # 백업 후 덮어쓰기 (.harness/.backups/init/<ISO8601>/)
 ```

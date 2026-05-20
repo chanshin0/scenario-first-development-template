@@ -52,8 +52,8 @@ cycle 산출물(`scenarios/throws/NNN-*.md`, `expanded/`, `specs/NNN/`, `tests/e
 
 ```bash
 # 예: 변수 이름 변경
-grep -rn "<old-name>" ~/Projects/scenario-first-development .
-grep -rn "<new-name>" ~/Projects/scenario-first-development .
+grep -rn "<old-name>" ~/Projects/scenario-first-development-template .
+grep -rn "<new-name>" ~/Projects/scenario-first-development-template .
 ```
 
 누락된 grep hit 가 ADR 외에 있으면 모든 hit 위치를 ADR 에 박는다. **부정합 재발 차단의 핵심**.

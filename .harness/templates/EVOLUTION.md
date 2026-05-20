@@ -27,7 +27,7 @@ risk_smell: {{none | weak_justification | rule_violation | scope_creep}}
 ## 3. 영향 범위 grep 결과
 
 ```
-$ grep -rn "<keyword>" ~/Projects/scenario-first-development .
+$ grep -rn "<keyword>" ~/Projects/scenario-first-development-template .
 <출력 인라인>
 ```
 
