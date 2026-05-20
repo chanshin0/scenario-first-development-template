@@ -6,7 +6,7 @@
 
 The barrier to building software is gone — anyone can vibe-code now. So what *is* "development" to a **normal person** (*who was never taught computational thinking*)? Not a dry, academic definition. **"Make it work the way I want to use it."** — that's the development they actually want.
 
-This system reflects exactly that need. What you had in mind is too broad to use as-is: it might include taste, guesses, feature ideas, and half-formed expectations. SFD keeps the part that can be stated, tested, and recognized later: **"this is how I want to use it."** That usage scenario is the source of truth.
+This system reflects exactly that need.
 
 **Throw the way you want to use it.** A structured pipeline catches that scenario and turns it into a working thing. You don't need to know *anything* about what happens inside — just check one thing: when you try that same scenario, does the result behave the way you meant?
 
