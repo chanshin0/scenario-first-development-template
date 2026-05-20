@@ -18,32 +18,56 @@
 
 `throw`(1) → `expand`(2) → `spec`(3) 까지 그냥 진행하면 된다. **E2E 프레임워크는 처음 `/scenario-first-goal`(4) 돌릴 때 한 번 물어본다** — 시작 시점에 정할 필요 없음.
 
-미리 정리(placeholder 치환 + E2E 결정 + SFD 메타 파일 제거)하고 싶으면 선택적으로 `/scenario-first-init`. 안 돌려도 cycle 은 진행된다.
+### (선택) `/scenario-first-init --from-template` — clone 정리
+
+clone 직후 새 레포엔 두 종류가 섞여 있다 — **그대로 쓸 자산** + **SFD 색이 묻은 부분**:
+
+| 그대로 쓰는 자산 (네 것) | SFD 색 (정리 대상) |
+|---|---|
+| `.claude/skills/` 6 스킬 + `agents/sfd-architect` | `AGENTS.md` 의 `{{PROJECT_NAME}}` 등 placeholder 미치환 |
+| `.harness/` 운영 layer · 빈 `scenarios/`·`tests/e2e/` | `.env.scenario` 실파일 아직 없음 (`.example` 만 있음) |
+| `init.sh` · `.gitmessage` · `rules.json` | `.harness/EVOLUTION/001~004` = SFD **자신의** ADR |
+| | `README.md` = SFD **방법론 설명서** (네 README 아님) |
+
+`/scenario-first-init --from-template` 가 오른쪽 칸을 정리한다:
+1. placeholder 치환 (`{{PROJECT_NAME}}`→레포명, E2E 값, 날짜)
+2. `.env.scenario` 실파일 생성 + E2E 프레임워크 결정
+3. SFD 메타 제거 (`README.md` + `EVOLUTION/001~004` — 네 프로젝트는 ADR 을 001부터 새로 쌓음)
+4. git `commit.template` 등록
+
+**안 돌려도 된다.** throw~spec 은 그대로 동작하고, E2E 는 처음 goal 이 알아서 묻는다. 안 돌리면 placeholder·SFD README·ADR 이 남는 **미관 노이즈**만 감수하는 것.
 
 <details>
-<summary>다른 시작 방법 (빈 디렉터리 / 수동 cp) · SFD 갱신 받기</summary>
+<summary>GitHub template 안 쓰고 시작 (빈 디렉터리 / 수동 cp) · SFD 갱신 받기</summary>
 
-### 빈 디렉터리에서 init 호출
+A/B/C 는 **"파일을 새 디렉터리에 어떻게 넣느냐"만 다르다.** 결과물은 동일.
+- **A (위, 권장)**: GitHub "Use this template" 가 복사
+- **B**: GitHub 안 쓰고 `init` 이 로컬 시드(`$SCENARIO_FIRST_HOME`)에서 복사
+- **C**: B 가 하는 복사를 손으로
 
-template 을 안 쓰고 기존/빈 디렉터리에 하네스를 깔 때:
+### B. 빈 디렉터리에서 init 복사
+
+GitHub template 없이, 기존/빈 디렉터리에 로컬 시드를 깔 때:
 
 ```bash
 mkdir ~/Projects/my-new-idea && cd ~/Projects/my-new-idea
-export SCENARIO_FIRST_HOME=~/Projects/scenario-first-development-template
+export SCENARIO_FIRST_HOME=~/Projects/scenario-first-development-template   # 로컬 SFD clone 위치
 # 여기서 Claude Code 켜고:
-/scenario-first-init                       # git init + 시드 whitelist 복사 (.claude/skills/ 포함)
+/scenario-first-init                       # git init + 시드 whitelist 복사 (.claude/skills/ 포함) + placeholder + E2E
 # 재시작해서 cwd 의 `.claude/skills/` 인식 후
 /scenario-first-throw "<첫 시나리오>"
 ```
 
-### 수동 cp -r
+(A 와 차이: A 는 GitHub 이 복사하고 `--from-template` 로 정리. B 는 init 이 로컬에서 복사부터 정리까지 한 번에. B 는 `$SCENARIO_FIRST_HOME` 에 SFD clone 이 있어야 함.)
+
+### C. 수동 cp -r (B 를 손으로)
 
 ```bash
 cp -r ~/Projects/scenario-first-development-template ~/Projects/my-new-idea
 cd ~/Projects/my-new-idea
-rm -rf .git README.md                      # 시드 아닌 것 제거 (방법론 설명서)
-rm -rf scenarios/throws/* scenarios/expanded/* scenarios/specs/*/   # 실제 cycle 산출물 제거
-rm -f .harness/EVOLUTION/[0-9]*.md          # SFD 자체의 ADR 제거 (새 프로젝트는 자기 ADR 누적)
+rm -rf .git README.md                      # SFD 방법론 설명서 제거
+rm -rf scenarios/throws/* scenarios/expanded/* scenarios/specs/*/   # SFD 의 실제 cycle 산출물 제거
+rm -f .harness/EVOLUTION/[0-9]*.md          # SFD 자신의 ADR 제거 (네 프로젝트는 001부터 새로)
 git init && ./init.sh
 ```
 
@@ -265,7 +289,7 @@ my-project/                         ← (또는 이 레포 루트)
 
 1. 이 레포에서 "Use this template" → 새 my-idea 레포 생성 + clone
 2. `/scenario-first-throw "<첫 시나리오>"` (바로 시작)
-3. (선택) AGENTS.md 훑기 (운영 9룰) · 미리 정리하려면 `/scenario-first-init`
+3. (선택) AGENTS.md 훑기 (운영 9룰) · clone 정리하려면 `/scenario-first-init --from-template`
 
 시스템 자체 명세를 바꾸려 할 때: `/sfd-architect "<변경 의도>"` → ADR → 적용 (룰 3.9).
 
