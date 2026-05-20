@@ -6,9 +6,9 @@
 
 The barrier to building software is gone — anyone can vibe-code now. So what *is* "development" to a **normal person** (*who was never taught computational thinking*)? Not a dry, academic definition. **"Make it work the way I want to use it."** — that's the development they actually want.
 
-This system reflects exactly that need.
+This system reflects exactly that need. For most people, picturing one concrete usage scenario is much easier than writing a concrete spec.
 
-**Throw the way you want to use it.** A structured pipeline catches that scenario and turns it into a working thing. You don't need to know *anything* about what happens inside — just check one thing: when you try that same scenario, does the result behave the way you meant?
+**Throw one concrete scenario for how you want to use it.** A structured pipeline catches that scenario and turns it into a working thing. You don't need to know *anything* about what happens inside — just check one thing: when you try that same scenario, does the result behave the way you meant?
 
 <details>
 <summary>Still curious what happens inside?</summary>
