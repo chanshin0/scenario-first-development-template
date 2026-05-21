@@ -35,3 +35,8 @@
   - 일반화 근거: clone은 git history를 미상속하므로 다운스트림에서 얻은 하네스 교훈이 업스트림 템플릿으로 환류될 경로가 구조적으로 없다. 모든 clone 사용자가 동일하게 겪는 메타 갭.
   - 제안 방향: 이 `.sfd-meta/FEEDBACK-INBOX.md` 채널을 템플릿에 내장(현재 작업) + AGENTS.md/README에 "하네스 피드백은 sfd-architect 게이트 전 단계로 여기 누적" 한 줄 안내 후보. sfd-architect 트리거 문서에 인박스 연계 검토.
   - status: candidate
+
+- [2026-05-21 / bookpile (개발 중 [tpl])] 시나리오-First 파이프라인(Job Story→GWT)은 MVP를 빠르게 세우는 데(=0→1, walking skeleton+backbone) 적합하고 그 목적은 빠르게 달성되지만, MVP 이후 단계 — 이미 동작하는 화면의 UI/UX 미세 조정, 작은 세부 기능 추가·변형 — 에서는 "When 상황, I want 동기, so 결과" + GWT 자동 게이트의 무게가 작업 대비 과해 적절하지 않다. 이 1→n(refinement) 단계를 위한 확장이 필요하다는 신호.
+  - 일반화 근거: 모든 clone은 MVP가 서고 review를 통과한 뒤 "이미 있는 동작을 다듬는" 단계로 진입한다. throw→expand→spec→goal→review 5단계는 새 backbone(새 시나리오)을 세우는 데 최적화돼 있어, 기존 시나리오에 매달리지 않는 미세 조정(여백·문구·정렬·인터랙션 디테일)에는 GWT 1:1 매핑이 잘 안 붙고 자동 게이트도 의미가 옅다. 도메인(알라딘/책)과 무관한 방법론의 라이프사이클 갭. 단, "post-MVP에는 시나리오가 부적절"이라는 강한 주장은 [추정] 경량 GWT/시각 회귀로 흡수 가능한 부분과 진짜 갭인 부분이 섞여 있을 수 있어, 후속 검토에서 분해 필요.
+  - 제안 방향(후보, 단정 아님): (a) MVP 이후 작은 조정을 위한 경량 트랙 — 예: `throw:tweak`(GWT 강제 없이 변경 의도 한 줄 + 시각/수동 evidence만)을 일급 절차로 추가; (b) UI/UX 미세 조정용 게이트를 GWT E2E 대신 시각 회귀(스냅샷)·수동 review 중심으로 전환하는 `scenario-first-goal` 분기; (c) review(5단계)는 그대로 두되 expand/spec을 "기존 시나리오 변형"일 때 축약하는 모드. 어느 쪽이든 누적 게이트 풀·review_status:passed 진입 조건은 보존 전제. 실제 채택은 sfd-architect 정식 검토(영향 grep + 보호 룰 점검)에서 결정.
+  - status: candidate
