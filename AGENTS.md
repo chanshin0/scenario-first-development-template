@@ -72,7 +72,7 @@ git log --oneline -5
 .harness/.backups/<NNN>/<ISO8601>/<원본파일경로>
 ```
 
-이 경로는 gitignore. 추적은 STATUS.md `BACKUPS:` 섹션에 한 줄.
+이 경로는 gitignore. 추적은 STATUS.md `## BACKUPS` 섹션의 `BACKUPS-INSERT` 마커 다음 줄.
 
 ### 3.3 STATUS.md 갱신 책임
 5 스킬은 각자 작업 끝에 `.harness/STATUS.md` 를 한 줄 갱신한다. 스킬을 실행한 에이전트가 책임.
@@ -80,6 +80,16 @@ git log --oneline -5
 형식:
 ```
 - <ISO8601> NNN-XXX [throw|expand|spec|goal|review] <한 줄 요약>
+```
+
+**어느 섹션에 꽂는가** (섹션 경계 오염 방지 — 파일 끝 `echo >>` 금지):
+- cycle 로그 → `## Cycle 로그` 의 `CYCLE-LOG-INSERT` 마커 다음 줄 (최신이 위)
+- backup 줄 → `## BACKUPS` 의 `BACKUPS-INSERT` 마커 다음 줄
+- 통과 NNN → `## 누적 게이트 풀` 의 `POOL-INSERT` 마커 다음 줄 (review 만, 룰 3.1)
+
+삽입은 마커 타게팅 awk 로 (파일 끝은 누적 게이트 풀 = 머신 검증 대상이라 맹목 append 시 오염):
+```bash
+awk -v l="$L" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 3.4 cycle lock — 한 번에 한 NNN (반복 강제)

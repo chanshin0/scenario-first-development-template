@@ -2,6 +2,10 @@
 
 > 5 스킬 각각이 작업 끝에 한 줄씩 갱신 (AGENTS.md 룰 3.3).
 > 사람이 매 세션 시작 시 가장 먼저 보는 곳.
+>
+> **append 규약**: 줄 추가는 항상 해당 섹션의 `*-INSERT` 마커 **바로 다음 줄**에 꽂는다 (아래 awk 패턴).
+> 파일 끝 `echo >>` 는 금지 — 파일 끝은 누적 게이트 풀(머신 검증 대상)이라 오염된다.
+> `awk -v l="$LINE" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md`
 
 ---
 
@@ -26,12 +30,14 @@ STUCK: (none)
 ## BACKUPS
 <!-- rerun/force 백업 추적 — 파일 자체는 .harness/.backups/ (gitignore). -->
 <!-- 형식: - <ISO8601> <NNN> <원본> → <백업경로> -->
+<!-- BACKUPS-INSERT — backup 줄은 이 줄 바로 다음에 삽입. 파일 끝 `echo >>` 금지. -->
 
 ---
 
 ## Cycle 로그
 <!-- 5 스킬 작업 끝에 한 줄 append. 최신이 위. -->
 <!-- 형식: - <ISO8601> NNN-XXX [throw|expand|spec|goal|review] <한 줄 요약> -->
+<!-- CYCLE-LOG-INSERT — cycle 로그 줄은 이 줄 바로 다음에 삽입 (최신이 위). 파일 끝 `echo >>` 금지. -->
 
 (none yet)
 
@@ -41,5 +47,6 @@ STUCK: (none)
 <!-- goal 4단계가 누적 regression에 포함하는 NNN 목록. -->
 <!-- REGRESSION-POLICY.md 의 통과 조건만 진입. -->
 <!-- 형식: - NNN (passed at <ISO8601>) — <Job Story 한 줄> -->
+<!-- POOL-INSERT — review_status=passed 인 NNN 만 이 줄 바로 다음에 삽입 (룰 3.1). 그 외 append 금지. -->
 
 (none yet)

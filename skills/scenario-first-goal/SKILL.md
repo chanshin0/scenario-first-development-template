@@ -183,13 +183,15 @@ goal_at: <ISO8601>
 ### 8. STATUS.md 갱신 (룰 3.3)
 
 ```bash
-echo "- $(date -Iseconds) NNN [goal] PASS (iteration N, 누적 K)" >> .harness/STATUS.md
+L="- $(date -Iseconds) NNN [goal] PASS (iteration N, 누적 K)"
+awk -v l="$L" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 STUCK 시:
 ```bash
 sed -i.bak -E "s|^STUCK:.*|STUCK: NNN at <scenario-id>|" .harness/STATUS.md && rm .harness/STATUS.md.bak
-echo "- $(date -Iseconds) NNN [goal] STUCK at <scenario-id> (<트리거된 신호>)" >> .harness/STATUS.md
+L="- $(date -Iseconds) NNN [goal] STUCK at <scenario-id> (<트리거된 신호>)"
+awk -v l="$L" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 9. 응답

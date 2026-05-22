@@ -51,7 +51,8 @@ test -f scenarios/expanded/NNN-*.md || {
 TS=$(date -Iseconds)
 mkdir -p ".harness/.backups/<NNN>/$TS/specs"
 cp -r "scenarios/specs/<NNN>" ".harness/.backups/<NNN>/$TS/specs/" 2>/dev/null
-echo "- $TS <NNN> scenarios/specs/<NNN>/ → .harness/.backups/<NNN>/$TS/specs/" >> .harness/STATUS.md
+L="- $TS <NNN> scenarios/specs/<NNN>/ → .harness/.backups/<NNN>/$TS/specs/"
+awk -v l="$L" '1;/<!-- BACKUPS-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 2. 확장 로드
@@ -196,7 +197,8 @@ ARCH "보류 결정" 슬롯의 항목을 `.harness/backlog.md`에 append:
 ### 8. STATUS.md 갱신 (룰 3.3)
 
 ```bash
-echo "- $(date -Iseconds) NNN [spec] PRD+ARCH+NONFUNC+OPS, 보류 결정 N개" >> .harness/STATUS.md
+L="- $(date -Iseconds) NNN [spec] PRD+ARCH+NONFUNC+OPS, 보류 결정 N개"
+awk -v l="$L" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 9. 응답

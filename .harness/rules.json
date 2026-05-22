@@ -33,6 +33,11 @@
       "description": "누적 게이트 풀은 review_status=passed 인 NNN만. REGRESSION-POLICY.md 의 통과 조건.",
       "check": "STATUS.md '## 누적 게이트 풀' 섹션의 NNN 들이 expanded/NNN-*.md 에서 review_status=passed 인지"
     },
+    "status_section_append": {
+      "value": true,
+      "description": "STATUS.md 줄 추가는 섹션별 *-INSERT 마커 다음 줄에만. 파일 끝 'echo >>' 금지 — 파일 끝은 누적 게이트 풀(머신 검증 대상)이라 cycle 로그·backup 줄이 혼입돼 오염됨 (clone 002·003·004 재발). cycle 로그=CYCLE-LOG-INSERT, backup=BACKUPS-INSERT, 통과 NNN=POOL-INSERT.",
+      "check": "'## 누적 게이트 풀' 섹션 본문에 'NNN (passed at ...)' 형식 외의 줄(cycle 로그·backup)이 없는지. 5 스킬 SKILL.md 에 '>> .harness/STATUS.md' 잔존 0 인지"
+    },
     "harness_change_via_architect": {
       "value": true,
       "description": "하네스(템플릿 레이어 — 5 스킬 SKILL.md, AGENTS.md 룰, rules.json, .harness/templates/*, init 동작, .env.scenario 스키마, sfd-architect 자신) 수정은 sfd-architect 통로로 검토(영향 grep + 보호 룰 점검 + 정당성) 후 적용하고 근거를 commit message 에 기록. 프로젝트 코드·cycle 산출물(throws/expanded/specs/tests) 변경은 제외. ADR 파일 안 만듦 — 기록은 git history (template clone 은 히스토리 미상속이라 자동으로 안 샘).",

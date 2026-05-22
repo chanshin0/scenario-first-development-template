@@ -164,9 +164,10 @@ review_at: <ISO8601>
 `.harness/STATUS.md` 갱신 (룰 3.3):
 - `IN_PROGRESS:` → `(none)` 해제
 - `WAITING_ON_USER:` → `(none)` 해제
-- "## 누적 게이트 풀" 섹션에 NNN 추가 (룰 3.1):
-  ```
-  - NNN (passed at <ISO8601>) — <Job Story 한 줄>
+- "## 누적 게이트 풀" 섹션에 NNN 추가 (룰 3.1) — `POOL-INSERT` 마커 다음 줄에 삽입:
+  ```bash
+  L="- NNN (passed at <ISO8601>) — <Job Story 한 줄>"
+  awk -v l="$L" '1;/<!-- POOL-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
   ```
 
 `.harness/HANDOFF.md` 갱신:
@@ -196,7 +197,8 @@ review_at: <ISO8601>
 ### 8. STATUS.md cycle 로그 (룰 3.3)
 
 ```bash
-echo "- $(date -Iseconds) NNN [review] <passed | failed → routed_to=X>" >> .harness/STATUS.md
+L="- $(date -Iseconds) NNN [review] <passed | failed → routed_to=X>"
+awk -v l="$L" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 9. 응답

@@ -29,7 +29,7 @@
 - [2026-05-21 / bookpile 002·003·004] STATUS.md에 `echo >>`로 append하다 보니 cycle 로그 줄·backup 줄이 "누적 게이트 풀(review_status=passed)" 섹션 안으로 섞여 들어가는 포맷 오염이 반복 발생(현재 STATUS.md에서도 누적 풀 섹션에 throw/backup/goal 로그 줄이 혼입 확인됨).
   - 일반화 근거: STATUS.md 양식과 "5 스킬이 끝에 한 줄 append" 규율은 하네스 layer 자체이며, append를 텍스트로 하는 한 어느 clone에서나 섹션 경계가 무너질 수 있다. 도메인 무관한 양식·규율 마찰.
   - 제안 방향: `.harness/STATUS.md` 양식에 섹션 앵커/머신 검증 추가, 또는 5 스킬의 append를 자유 텍스트 대신 정해진 섹션(Cycle 로그 / 누적 풀 / BACKUPS)에 꽂는 헬퍼·규율로 강제하는 후보. rules.json에 "누적 풀 섹션은 NNN passed 항목만" 검증 룰 추가 검토.
-  - status: candidate
+  - status: applied-on-branch (`harness/status-section-pollution-fix`, sfd-architect 검토 완료 → 마커+awk 타게팅 삽입으로 적용, 사람 diff 확인 후 푸쉬 대기. 근본 원인=모든 append가 파일 끝=누적 풀 섹션으로 떨어짐)
 
 - [2026-05-21 / bookpile meta] 템플릿으로 개발하다 보면 템플릿 자체 피드백이 생기는데, 그걸 프로젝트와 분리해 템플릿 레포로 보내는 내장 채널이 없었음 — 이 인박스 자체가 그 대응.
   - 일반화 근거: clone은 git history를 미상속하므로 다운스트림에서 얻은 하네스 교훈이 업스트림 템플릿으로 환류될 경로가 구조적으로 없다. 모든 clone 사용자가 동일하게 겪는 메타 갭.

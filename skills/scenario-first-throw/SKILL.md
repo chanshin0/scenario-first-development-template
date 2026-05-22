@@ -82,7 +82,8 @@ fi
 TS=$(date -Iseconds)
 mkdir -p ".harness/.backups/<NNN>/$TS"
 cp "scenarios/throws/NNN-"*.md ".harness/.backups/<NNN>/$TS/"
-echo "- $TS <NNN> scenarios/throws/NNN-*.md → .harness/.backups/<NNN>/$TS/" >> .harness/STATUS.md
+L="- $TS <NNN> scenarios/throws/NNN-*.md → .harness/.backups/<NNN>/$TS/"
+awk -v l="$L" '1;/<!-- BACKUPS-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 5. 저장
@@ -116,8 +117,9 @@ so I can <결과>.
 # 신규 NNN 시 IN_PROGRESS 채움
 sed -i.bak -E "s|^IN_PROGRESS: \(none\)$|IN_PROGRESS: NNN-<slug>|" .harness/STATUS.md && rm .harness/STATUS.md.bak
 
-# Cycle 로그 한 줄 append
-echo "- $(date -Iseconds) NNN-<slug> [throw] <Job Story 한 줄>" >> .harness/STATUS.md
+# Cycle 로그 한 줄 — CYCLE-LOG-INSERT 마커 다음에 삽입 (파일 끝 append 금지)
+L="- $(date -Iseconds) NNN-<slug> [throw] <Job Story 한 줄>"
+awk -v l="$L" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 7. 응답

@@ -49,7 +49,8 @@ test -f scenarios/throws/NNN-*.md || {
 TS=$(date -Iseconds)
 mkdir -p ".harness/.backups/<NNN>/$TS"
 cp "scenarios/expanded/NNN-"*.md ".harness/.backups/<NNN>/$TS/" 2>/dev/null
-echo "- $TS <NNN> scenarios/expanded/NNN-*.md → .harness/.backups/<NNN>/$TS/" >> .harness/STATUS.md
+L="- $TS <NNN> scenarios/expanded/NNN-*.md → .harness/.backups/<NNN>/$TS/"
+awk -v l="$L" '1;/<!-- BACKUPS-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 2. Job Story 로드
@@ -186,7 +187,8 @@ Example Mapping의 🟨 **Story 카드**를 `.harness/backlog.md`에 append:
 ### 10. STATUS.md 갱신 (룰 3.3)
 
 ```bash
-echo "- $(date -Iseconds) NNN-<slug> [expand] backbone N, walking skeleton M, GWT K" >> .harness/STATUS.md
+L="- $(date -Iseconds) NNN-<slug> [expand] backbone N, walking skeleton M, GWT K"
+awk -v l="$L" '1;/<!-- CYCLE-LOG-INSERT/{print l}' .harness/STATUS.md > .harness/STATUS.md.tmp && mv .harness/STATUS.md.tmp .harness/STATUS.md
 ```
 
 ### 11. 응답
