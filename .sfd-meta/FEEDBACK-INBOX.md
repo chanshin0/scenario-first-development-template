@@ -36,7 +36,19 @@
   - 제안 방향: 이 `.sfd-meta/FEEDBACK-INBOX.md` 채널을 템플릿에 내장(현재 작업) + AGENTS.md/README에 "하네스 피드백은 sfd-architect 게이트 전 단계로 여기 누적" 한 줄 안내 후보. sfd-architect 트리거 문서에 인박스 연계 검토.
   - status: candidate
 
-- [2026-05-21 / bookpile (개발 중 [tpl])] 시나리오-First 파이프라인(Job Story→GWT)은 MVP를 빠르게 세우는 데(=0→1, walking skeleton+backbone) 적합하고 그 목적은 빠르게 달성되지만, MVP 이후 단계 — 이미 동작하는 화면의 UI/UX 미세 조정, 작은 세부 기능 추가·변형 — 에서는 "When 상황, I want 동기, so 결과" + GWT 자동 게이트의 무게가 작업 대비 과해 적절하지 않다. 이 1→n(refinement) 단계를 위한 확장이 필요하다는 신호.
-  - 일반화 근거: 모든 clone은 MVP가 서고 review를 통과한 뒤 "이미 있는 동작을 다듬는" 단계로 진입한다. throw→expand→spec→goal→review 5단계는 새 backbone(새 시나리오)을 세우는 데 최적화돼 있어, 기존 시나리오에 매달리지 않는 미세 조정(여백·문구·정렬·인터랙션 디테일)에는 GWT 1:1 매핑이 잘 안 붙고 자동 게이트도 의미가 옅다. 도메인(알라딘/책)과 무관한 방법론의 라이프사이클 갭. 단, "post-MVP에는 시나리오가 부적절"이라는 강한 주장은 [추정] 경량 GWT/시각 회귀로 흡수 가능한 부분과 진짜 갭인 부분이 섞여 있을 수 있어, 후속 검토에서 분해 필요.
-  - 제안 방향(후보, 단정 아님): (a) MVP 이후 작은 조정을 위한 경량 트랙 — 예: `throw:tweak`(GWT 강제 없이 변경 의도 한 줄 + 시각/수동 evidence만)을 일급 절차로 추가; (b) UI/UX 미세 조정용 게이트를 GWT E2E 대신 시각 회귀(스냅샷)·수동 review 중심으로 전환하는 `scenario-first-goal` 분기; (c) review(5단계)는 그대로 두되 expand/spec을 "기존 시나리오 변형"일 때 축약하는 모드. 어느 쪽이든 누적 게이트 풀·review_status:passed 진입 조건은 보존 전제. 실제 채택은 sfd-architect 정식 검토(영향 grep + 보호 룰 점검)에서 결정.
-  - status: candidate
+- [2026-05-21 / bookpile (개발 중 [tpl]) · 2026-05-22 분해됨] MVP가 아이디어의 구현가능성을 증명한 뒤(0→1, walking skeleton+backbone), "실제 쓸 수 있는 서비스"로 만드는 단계 — UI/UX를 바꾸고 **상세 동작을 정확히 정의**하는 일 — 이 현재 구조에서 갈 곳이 없다. 처음엔 "post-MVP 미세조정에 시나리오가 과하다"로 잡았으나 사용자 논의로 분해한 결과, 진짜 갭은 cosmetic이 아니라 **"이미 통과한 시나리오의 해상도를 올리는 연산"의 부재**였다. MVP 시나리오는 저해상도(정상 케이스만)이고, 서비스는 고해상도(0건·소스다운·동률·품절·로딩·에러까지 정밀 정의)가 필요한데, throw는 "새 backbone"용이지 "기존 걸 깊게"가 아니라 던질 새 게 없다. 단방향+통과시잠금 구조는 시나리오를 *세우는* 데 최적화돼 *키우는* 연산이 없다.
+  - 일반화 근거: 모든 clone은 MVP 증명 후 서비스화로 진입하고, 그때 "MVP가 뭉갠 디테일"이 우수수 쏟아진다(도메인 무관). 이 디테일은 새 기능이 아니라 같은 Job Story의 정밀화라 기존 throw에 안 맞는다. candidate C(잠긴 통과 시나리오 ↔ 새 시나리오 회귀 충돌)는 별개 버그가 아니라 **이 depth 연산 부재의 증상**이다 — 깊게 파는 동작이 없어 새 요구가 잠긴 것과 충돌.
+  - 분해된 모델 (post-MVP 작업의 3축):
+    - **breadth (새 기능)** = 기존 `throw` 그대로.
+    - **depth (있는 걸 정밀하게)** = 신규 `deepen` — 기존 NNN 재진입해 Rules/Examples(GWT)를 **추가**. 핵심 속성:
+      - **배치**: 한 번에 여러 항목(0건·소스다운·동률…)을 같이 정의. 단일 cycle 아님 → `single_active_cycle`(1 NNN 잠금)에서 면제 필요.
+      - **포착≠처리 분리**: 디테일은 MVP 만드는 *중에* 튀어나오므로 멈추지 말고 `.harness/backlog.md`에 target NNN 달아 한 줄 던져둠. 서비스화 때 `deepen`이 backlog를 배치로 끌어와 태움.
+      - **in-place 스키마**: example을 기존 시나리오 파일에 누적(버전/자식 001.1·001.2…는 배치 입력 시 폭발하므로 기각). 풀은 현재 example 집합 반영.
+    - **cosmetic (외관만)** = 신규 `tweak` — 행동 델타 없는 UI/UX. 게이트 = 기존 풀 green 유지 + 수동 시각 승인. 새 GWT/NNN 없음. snapshot은 "변하길 원함"이라 자동 게이트가 아니라 수동 review로 본질이 뒤집힘에 주의.
+  - 안전 원칙 (둘을 잠긴 풀과 양립시키는 열쇠): **단조성** — deepen은 example/제약을 *추가*만(약화 없음) → 게이트가 빡세지기만 → 잠긴 것 회귀 불가. tweak은 렌더링만 바꿈(행동 불변) → 풀 green이 안전망. 둘 다 기존 풀에 단조라 단방향+잠금 척추를 안 부순다.
+  - 후속 sfd-architect 정식 게이트에서 정할 미결 (영향 grep + 보호 룰 점검 대상):
+    1. deepen 배치 실패 입자: 부분 커밋(green 항목만 잠금 + 깬 것만 격리/재작업·throw 승격) vs 올-or-넛싱(하나 깨지면 배치 전체 보류).
+    2. cycle lock 완화 형태: "throw 1개 OR deepen 배치 1개"로 재정의 — throw와 deepen-배치 동시 활성 허용 여부.
+    3. backlog 항목 포맷: deepen 대상이 되려면 "어느 NNN을 깊게"라는 target 태그 규율 추가.
+    4. tweak 게이트 2(시각)의 인프라: init(0)이 정한 E2E가 Playwright면 screenshot diff로 흡수, 아니면 순수 수동.
+  - status: candidate (분해 완료, 모델 사용자 합의 — 실제 스킬/룰 변경은 sfd-architect 정식 게이트 미통과 상태)
