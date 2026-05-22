@@ -39,11 +39,16 @@ test -d .harness && test -d scenarios || {
 }
 
 # 2. cycle lock 확인 (신규 NNN 시만; --update 모드는 예외)
+#    IN_PROGRESS 가 throw-cycle(NNN-<slug>) 이든 deepen(deepen-NNN) 이든 차 있으면 멈춤 (룰 3.4)
 if [[ "$MODE" != "update" ]]; then
   grep -qE "^IN_PROGRESS: \(none\)$" .harness/STATUS.md || {
-    echo "ERROR: 이미 진행 중인 cycle 있음 (.harness/STATUS.md IN_PROGRESS). 종료 후 시도"
+    echo "ERROR: 이미 진행 중인 cycle/deepen 있음 (.harness/STATUS.md IN_PROGRESS). 종료 후 시도"
     exit 1
   }
+  # deepen 보류분(REVIEW_PENDING)이 있으면 soft warn — 새 backbone 전에 닫기 권고 (룰 3.10)
+  if grep -A20 "^## REVIEW_PENDING" .harness/STATUS.md | grep -qE "^- [0-9]"; then
+    echo "WARN: deepen 보류분(REVIEW_PENDING) 있음 — 새 throw 전 /scenario-first-review --deepen-batch 권고 (가짜-green 누적 방지)"
+  fi
 fi
 ```
 

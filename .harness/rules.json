@@ -4,8 +4,13 @@
   "rules": {
     "single_active_cycle": {
       "value": true,
-      "description": "STATUS.md IN_PROGRESS 라인은 단일 NNN만. cycle lock — 룰 3.4.",
-      "check": "STATUS.md 의 'IN_PROGRESS:' 라인이 (none) 또는 단일 NNN 인지 grep"
+      "description": "STATUS.md IN_PROGRESS 라인은 한 번에 하나 — throw-cycle 'NNN-<slug>' 또는 deepen 'deepen-NNN' 중 하나만. cycle lock — 룰 3.4. 동시 진행 금지. tweak(룰 3.11)은 cycle 아님 — IN_PROGRESS 미점유, 단 실행 전 (none) 요구.",
+      "check": "STATUS.md 의 'IN_PROGRESS:' 라인이 (none) 또는 단일 NNN-<slug> 또는 단일 deepen-NNN 인지 grep"
+    },
+    "deepen_monotonic": {
+      "value": true,
+      "description": "deepen(룰 3.10)은 review_status=passed 인 기존 NNN의 expanded 에 GWT example 을 추가만 한다. 잠긴(passed 시점 풀에 있던) example 의 삭제·변경·약화 금지 — 이게 잠긴 누적 풀 보호의 전제. 단, 이번 deepen 패스에서 추가됐고 아직 미통과/미잠금인 example 의 철회(배치 부분커밋 시 STUCK 항목 환원)는 단조성 위반 아님. deepen 대상은 review_status=passed 여야 하고, deepen 후 review 재통과 필요.",
+      "check": "deepen commit 의 expanded NNN diff 에서 '잠긴 example(직전 passed 상태에 존재)' 의 삭제/변경이 0 인지. 미잠금 추가분 철회 commit 은 직전 deepen 패스 추가분에 한함."
     },
     "passing_requires_evidence": {
       "value": true,
@@ -30,8 +35,8 @@
     },
     "regression_pool_passed_only": {
       "value": true,
-      "description": "누적 게이트 풀은 review_status=passed 인 NNN만. REGRESSION-POLICY.md 의 통과 조건.",
-      "check": "STATUS.md '## 누적 게이트 풀' 섹션의 NNN 들이 expanded/NNN-*.md 에서 review_status=passed 인지"
+      "description": "누적 게이트 풀은 review_status=passed 인 NNN만. REGRESSION-POLICY.md 의 통과 조건. deepen-batch 보류(deepen_pending_review) NNN 은 review_status 가 passed 그대로이므로 풀에 남고, goal-green 한 새 example 은 잠정 멤버로 게이트에 따라온다(배치 review 까지 본인 검증 유예).",
+      "check": "STATUS.md '## 누적 게이트 풀' 섹션의 NNN 들이 expanded/NNN-*.md 에서 review_status=passed 인지. deepen_pending_review 표시는 review_status 를 안 내림(여전히 passed)."
     },
     "status_section_append": {
       "value": true,

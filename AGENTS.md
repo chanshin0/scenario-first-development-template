@@ -6,14 +6,22 @@
 
 ```
 사용자 머리 ──► throw ──► expand ──► spec ──► goal ──► review ──► 다음 backbone
-                  ↑                                                  │
-                  └──── (1) 시나리오 / (2) Spec / (3) 구현 ──────────┘
-                          5 Whys 라우팅 (실패 시)
+                  ↑                                          │  │
+                  └──── (1) 시나리오 / (2) Spec / (3) 구현 ───┘  │
+                          5 Whys 라우팅 (실패 시)                │
+                                                                │ review_status=passed
+                  ┌──────────────  deepen  ◄────────────────────┘
+                  │  (post-MVP, depth: 통과 NNN 해상도 ↑, NNN별 순차)
+                  └─► expanded 에 example 누적 ─► goal green ─► review 보류
+                             여러 NNN 보류분 ─► review --deepen-batch (한 번에 검증)
+
+         tweak (post-MVP, cosmetic: 행동 델타 없는 외관) ─► 게이트1=기존 풀 green 유지 + 게이트2=시각 evidence
 ```
 
 - SoT는 코드도 spec도 아니고 **`scenarios/throws/NNN-*.md`의 Job Story**.
-- 단방향. 양방향 동기 안 함.
-- **한 번에 한 cycle (NNN). 강제.**
+- 단방향. 양방향 동기 안 함. (deepen 은 역방향이 아니라 통과 NNN의 **재진입** — 같은 NNN에 example 추가 후 goal→review 로 다시 앞으로 흐름.)
+- **3축**: breadth=`throw`(새 backbone) / depth=`deepen`(있는 걸 정밀하게) / cosmetic=`tweak`(외관, 행동 델타 없음). 둘 다 post-MVP. 구별 리트머스 = "새 GWT(Then)를 쓸 수 있나" — 있으면 deepen, 없으면 tweak.
+- **한 번에 하나 (throw-cycle NNN 또는 deepen-NNN). 강제.** (tweak 은 cycle 아님 — lock 미점유, 단 실행 전 (none) 요구.)
 - 자동 트리거 금지 — 모든 스킬은 사용자 호출 시에만.
 
 ## 1. 세션 시작 워크플로 (코드 작성 전 반드시 6단계)
@@ -45,7 +53,7 @@ git log --oneline -5
 2. 비어 있으면 → backlog.md 훑고 새 throw 후보 확인.
 3. `WAITING_ON_USER:` 가 채워져 있으면 → review 대기 cycle 이니 본인 사용 입력 기다리기 (Claude 시뮬레이션 금지).
 
-## 2. 5 스킬 + init
+## 2. 스킬 (코어 5 + post-MVP 2) + init
 
 | 단계 | 스킬 | 산출 |
 |---|---|---|
@@ -55,8 +63,10 @@ git log --oneline -5
 | 3 | `/scenario-first-spec <NNN>` | `scenarios/specs/NNN/{PRD,ARCHITECTURE,NONFUNC,OPS}.md` |
 | 4 | `/scenario-first-goal <NNN>` | `tests/e2e/scenario-NNN/`, `scenarios/specs/NNN/{GOAL,STUCK}.md`, commits |
 | 5 | `/scenario-first-review <NNN>` | `scenarios/specs/NNN/REVIEW.md` |
+| depth | `/scenario-first-deepen <NNN>` | (post-MVP) 통과 NNN의 `expanded` 에 example in-place 누적 + goal/review 재실행 — 룰 3.10 |
+| cosmetic | `/scenario-first-tweak "<의도>"` | (post-MVP) 행동 델타 없는 UI/UX 변경. 게이트1=기존 풀 green 유지, 게이트2=시각 evidence — 룰 3.11 |
 
-## 3. 운영 9룰 (반드시)
+## 3. 운영 11룰 (반드시)
 
 ### 3.1 누적 게이트 통과 조건
 `goal` 4단계의 자동 게이트는 NNN 시나리오뿐 아니라 `scenarios/expanded/*` 의 GWT 시나리오 전체를 누적해서 돌린다. 누적 풀 진입 조건:
@@ -75,11 +85,12 @@ git log --oneline -5
 이 경로는 gitignore. 추적은 STATUS.md `## BACKUPS` 섹션의 `BACKUPS-INSERT` 마커 다음 줄.
 
 ### 3.3 STATUS.md 갱신 책임
-5 스킬은 각자 작업 끝에 `.harness/STATUS.md` 를 한 줄 갱신한다. 스킬을 실행한 에이전트가 책임.
+5 스킬 + deepen/tweak 은 각자 작업 끝에 `.harness/STATUS.md` 를 한 줄 갱신한다. 스킬을 실행한 에이전트가 책임.
 
 형식:
 ```
-- <ISO8601> NNN-XXX [throw|expand|spec|goal|review] <한 줄 요약>
+- <ISO8601> NNN-XXX [throw|expand|spec|goal|review|deepen] <한 줄 요약>
+- <ISO8601> [tweak] <변경 의도> (NNN 없음)
 ```
 
 **어느 섹션에 꽂는가** (섹션 경계 오염 방지 — 파일 끝 `echo >>` 금지):
@@ -158,6 +169,33 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 
 머신 검증: `.harness/rules.json` 의 `harness_change_via_architect: true`.
 
+### 3.10 deepen — 통과 시나리오 해상도 올리기 (depth 연산)
+
+MVP(0→1)가 세운 시나리오는 저해상도(정상 케이스). "실제 쓸 서비스"로 만들려면 상세 동작(0건·소스다운·동률·품절·로딩·에러)을 정밀하게 못 박아야 한다. 이건 새 기능(새 throw)이 아니라 **같은 시나리오의 정밀화** — `scenario-first-deepen` 이 담당.
+
+- 대상: `review_status: passed` 인 NNN만 (미통과면 throw 파이프라인 먼저).
+- 동작: backlog 의 `[deepen NNN]` 항목(또는 inline)을 GWT example 로 만들어 `scenarios/expanded/NNN-*.md` 에 **in-place 누적**(`resolution:` +1) → goal 재실행 → green 후 **review 보류**(`deepen_pending_review`). 새 NNN 안 만듦.
+- **review 는 배치**: NNN별 순차로 goal 까지 태우고, review 는 `/scenario-first-review --deepen-batch` 로 보류분(REVIEW_PENDING)을 한자리에서 검증. 보류 창 동안 새 example 은 잠정 풀 멤버(REGRESSION-POLICY). 보류분 있으면 새 throw 전 닫기 권고.
+- **단조성(hard rule)**: example 을 **추가만**. 기존 example/GWT 수정·제거·약화 금지. 이것이 잠긴 누적 풀 보호의 전제 — 위반 시 회귀 가능. deepen 중 NNN은 풀 유지 (REGRESSION-POLICY "deepen 중 풀 유지").
+- cycle lock: deepen 은 `IN_PROGRESS: deepen-NNN` 로 lock 점유 (룰 3.4, `deepen-` prefix 로 throw-cycle 과 격리). throw 와 동시 불가.
+- 새 example 이 잠긴 행동과 충돌하면(기존 example red) deepen 이 임의 해소 금지 → review triage.
+
+머신 검증: `.harness/rules.json` 의 `single_active_cycle`(deepen-NNN 포함) + `deepen_monotonic`.
+
+deepen 은 배치(여러 항목)를 받는다: green 도달 example 은 잠그고, STUCK 항목의 *이번 패스 추가분만* expanded 에서 철회해 backlog 환원(부분 커밋). 새 동작이 spec 디테일을 요구하면 터치한 슬롯만 보강(PRD 재작성 금지).
+
+### 3.11 tweak — 행동 델타 없는 UI/UX 변경 (cosmetic 축)
+
+MVP·deepen 으로 동작이 정의된 뒤의 외관 다듬기(여백·문구·색·정렬·인터랙션). `scenario-first-tweak` 이 담당 — Job Story·GWT 작성 없음.
+
+- **deepen 과 구별 (리트머스)**: 새 GWT(Then 단언)를 쓸 수 있으면 `deepen`(행동), 못 쓰면(순수 외관·주관) `tweak`. 헷갈리면 게이트 1 이 판정 — tweak 이 풀을 깨면 행동을 바꾼 것 → deepen/throw 로 승격.
+- **게이트 1 (자동)**: 기존 누적 풀 green 유지 = 행동 안 바꿨다는 증명. 기존 풀 **재사용**(신규 게이트 아님 — 누적 풀 밖 분리 금지에 부합).
+- **게이트 2 (수동)**: 본인이 시각 결과 직접 보고 evidence 승인(`scenarios/tweaks/`). evidence 없이 완료 표시 금지(review 와 같은 강도).
+- cycle lock **미점유**(cycle 아님 — 새 NNN/expanded 없음), 단 실행 전 `IN_PROGRESS=(none)` 요구. 누적 풀 **미진입**(새 NNN 아님). cycle 로그 태그 `[tweak]`.
+- 표면 커버리지: soft warn (풀 미커버 표면은 행동 변화를 게이트 1 이 못 잡음 → 의심되면 deepen/throw). hard block 은 표면↔테스트 매핑 생기면 후속.
+
+머신 검증: `.harness/rules.json` 의 `single_active_cycle`(tweak 미점유 단서).
+
 ## 4. 세션 종료 워크플로 (반드시 5단계 + clean-state 7체크)
 
 ```
@@ -170,7 +208,7 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 
 ### Clean-state 체크리스트 (commit 전 반드시)
 
-- [ ] **cycle lock** — `IN_PROGRESS:` 가 (none) 또는 단일 NNN만 (반복 강제 룰 3.4)
+- [ ] **cycle lock** — `IN_PROGRESS:` 가 (none) 또는 단일 NNN-<slug>(throw-cycle) 또는 단일 deepen-NNN (반복 강제 룰 3.4)
 - [ ] `./init.sh` 가 여전히 작동 (표준 시작 경로)
 - [ ] `./init.sh verify` 가 여전히 통과 (표준 검증 경로)
 - [ ] STATUS.md 가 이번 세션 작업을 반영
@@ -190,7 +228,7 @@ throw 본문의 "기존 throws 카운트해서 다음 번호" 룰은 신규 thro
 
 ## 6. 금지
 
-- 자동 트리거 (모든 5 스킬 + init + sfd-architect)
+- 자동 트리거 (모든 7 스킬 — throw/expand/spec/goal/review/deepen/tweak + init + sfd-architect)
 - `scenarios/` 외부에 cycle 산출물 저장
 - `--no-verify`, `git push --force`
 - regression을 별도 게이트로 분리 (누적 풀에 흡수)

@@ -230,7 +230,7 @@ Next: /scenario-first-review NNN --triage
 - LLM judge로 자동 변환 가능 케이스 처리 (LLM 의존도 증가)
 - LLM judge 가 `.harness/judge-rubric.md` 양식 벗어남
 - `--no-verify`, `git push --force` 등 안전장치 우회
-- 시나리오 임의 수정 — 게이트가 정답이므로 시나리오를 못 통과한다고 시나리오를 깎으면 안 됨 (5단계에서 사용자가 결정)
+- 시나리오 임의 수정 — 게이트가 정답이므로 시나리오를 못 통과한다고 시나리오를 깎으면 안 됨 (5단계에서 사용자가 결정). 단 `deepen`(룰 3.10)의 **사용자 주도 example 추가**는 예외 — 게이트 약화가 아니라 강화(단조). deepen 이 추가한 example 도 여기 게이트로 green 까지 간다.
 - E2E 프레임워크가 **이미 설정돼 있는데** 다시 묻기 (init 또는 이전 goal 이 정했으면 그대로 사용). 단 미설정이면 0번에서 1회 결정은 정상 (init 강제 아님)
 - 하네스 미설치 상태에서 강행
 - STATUS.md 갱신 건너뛰기

@@ -14,7 +14,7 @@ tools: Read, Grep, Glob
 
 하네스(템플릿 레이어) 를 바꾸려는 의도면 호출 — 직접 변경 금지:
 
-- 5 스킬 동작 변경 (`scenario-first-{throw,expand,spec,goal,review}` 의 `SKILL.md` 본문)
+- 7 스킬 동작 변경 (`scenario-first-{throw,expand,spec,goal,review,deepen,tweak}` 의 `SKILL.md` 본문)
 - 운영 룰 변경 (`AGENTS.md` 의 3.x 룰, `.harness/rules.json`)
 - 하네스 layer 변경 (`.harness/STATUS.md` 양식, `REGRESSION-POLICY.md`, `judge-rubric.md`, `templates/*`)
 - 환경 변수 스키마 변경 (`.env.scenario.example`)
@@ -65,7 +65,7 @@ grep -rn "<new-name>" .
 | 누적 풀 진입 조건 `review_status: passed` | AGENTS.md 3.1 + REGRESSION-POLICY.md |
 | 단방향 파이프라인 (역방향 동기 금지) | rules.json single_direction_pipeline |
 | evidence 없이 review_status=passed 금지 | rules.json passing_requires_evidence |
-| 자동 트리거 금지 (모든 5 스킬 + init) | AGENTS.md 6 금지 |
+| 자동 트리거 금지 (모든 7 스킬 + init) | AGENTS.md 6 금지 |
 | Job Story 페르소나 금지 (상황만) | rules.json no_persona_in_throw |
 | 하네스 변경은 이 통로 + commit message 기록 | rules.json harness_change_via_architect |
 

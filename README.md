@@ -20,7 +20,7 @@ This system reflects exactly that need. For most people, picturing one concrete 
 
 </details>
 
-This repo is a **GitHub template**. Click "Use this template" and the 6 skills + meta-agent are already in your clone — no external install, no marketplace, no trust dialog.
+This repo is a **GitHub template**. Click "Use this template" and the 7 skills + meta-agent are already in your clone — no external install, no marketplace, no trust dialog.
 
 ---
 
@@ -73,10 +73,13 @@ your usage intent
 └────────────┘──────────► REVIEW.md
      │
      ├─ pass → next backbone slice (new throw)
+     │       ├─ (post-MVP, depth) sharpen a passed NNN → deepen: accrue examples in expanded → goal → re-pass review
+     │       └─ (post-MVP, cosmetic) polish visuals only → tweak: existing pool stays green + visual evidence
      └─ fail → (1) revise throw / (2) re-run spec / (3) resume goal
 ```
 
-**One direction. No back-sync. One cycle (NNN) at a time.**
+**One direction. No back-sync. One unit at a time (throw-cycle NNN or deepen-NNN).** (tweak isn't a cycle — holds no lock.)
+**3 axes**: breadth=throw (new backbone) / depth=deepen (sharpen what exists) / cosmetic=tweak (visual, no behavior delta). Both post-MVP. Litmus: if you can write a new GWT (Then), it's deepen; if not, tweak.
 
 ---
 
@@ -150,7 +153,7 @@ Skip this stage and stages 1–4 become meaningless.
 
 ---
 
-## Operating layer — 9 rules the 5 skills don't know
+## Operating layer — 11 rules the skills don't know
 
 Each skill knows only its own stage — not the whole cycle, cross-session state, the cumulative-gate policy, or harness self-evolution. `.harness/` owns this meta layer.
 
@@ -165,13 +168,15 @@ Each skill knows only its own stage — not the whole cycle, cross-session state
 | 7 | **codex/cursor trigger** — `[SCENARIO:throw] …` for slash-less agents | AGENTS.md 3.7 |
 | 8 | **Jargon policy** — USM / walking skeleton / GWT etc. assumed learned | AGENTS.md 3.8 |
 | 9 | **Harness-change channel** — change the harness via `/sfd-architect` review; record in the commit message | AGENTS.md 3.9 |
+| 10 | **deepen (depth)** — sharpen a passed NNN; examples are **added only** (monotonic), `deepen-NNN` lock | AGENTS.md 3.10 |
+| 11 | **tweak (cosmetic)** — visual change, no behavior delta. gate1=existing pool stays green, gate2=visual evidence. doesn't enter pool | AGENTS.md 3.11 |
 
 <details>
 <summary>Directory structure</summary>
 
 ```
 my-project/
-├── AGENTS.md            # entry point — start (6 steps) + 9 rules + end (5 steps)
+├── AGENTS.md            # entry point — start (6 steps) + 11 rules + end (5 steps)
 ├── CLAUDE.md            # points to AGENTS.md
 ├── init.sh              # bootstrap / verify / start
 ├── .env.scenario        # 3 progress signals + E2E command (gitignore)
@@ -208,7 +213,7 @@ A fresh clone mixes **assets you keep** with **SFD's own residue**:
 
 | Keep (yours) | SFD residue (to clean) |
 |---|---|
-| `.claude/skills/` 6 skills + `agents/sfd-architect` | placeholders in `AGENTS.md` (`{{PROJECT_NAME}}`, …) |
+| `.claude/skills/` 7 skills + `agents/sfd-architect` | placeholders in `AGENTS.md` (`{{PROJECT_NAME}}`, …) |
 | `.harness/` · empty `scenarios/` · `tests/e2e/` | `.env.scenario` not yet created (only `.example`) |
 | `init.sh` · `.gitmessage` · `rules.json` | this `README.md` (= SFD's methodology doc, not yours) |
 

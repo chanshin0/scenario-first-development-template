@@ -1,6 +1,6 @@
 # STATUS — scenario-first cycle 진행 상태
 
-> 5 스킬 각각이 작업 끝에 한 줄씩 갱신 (AGENTS.md 룰 3.3).
+> 5 스킬 + deepen/tweak 이 각자 작업 끝에 한 줄씩 갱신 (AGENTS.md 룰 3.3).
 > 사람이 매 세션 시작 시 가장 먼저 보는 곳.
 >
 > **append 규약**: 줄 추가는 항상 해당 섹션의 `*-INSERT` 마커 **바로 다음 줄**에 꽂는다 (아래 awk 패턴).
@@ -9,14 +9,16 @@
 
 ---
 
-## ⚠️ Cycle lock — 한 번에 한 NNN (룰 3.4 반복 강제 — AGENTS.md + 여기 + 세션 종료 체크리스트)
+## ⚠️ Cycle lock — 한 번에 하나 (룰 3.4 반복 강제 — AGENTS.md + 여기 + 세션 종료 체크리스트)
 
-`IN_PROGRESS:` 가 채워져 있는 동안 새 throw 시도하면 사전 점검에서 **멈춤**.
-해제: 그 NNN review_status=passed, 또는 명시 폐기 (REGRESSION-POLICY 절차).
+`IN_PROGRESS:` 가 채워져 있는 동안 새 throw/deepen 시도하면 사전 점검에서 **멈춤**.
+한 번에 하나만: throw-cycle `NNN-<slug>` **또는** deepen `deepen-NNN`.
+해제: throw-cycle 은 그 NNN review_status=passed 또는 명시 폐기(REGRESSION-POLICY), deepen 은 review 재통과 시 자동 `(none)`.
 
 머신 검증: `.harness/rules.json` 의 `single_active_cycle: true`.
 
 ## IN_PROGRESS
+<!-- 형식: (none) | NNN-<slug> (throw-cycle) | deepen-NNN (deepen) -->
 IN_PROGRESS: (none)
 
 ## WAITING_ON_USER
@@ -26,6 +28,11 @@ WAITING_ON_USER: (none)
 ## STUCK
 <!-- goal 4단계가 escalate 한 cycle (STUCK.md 참조). -->
 STUCK: (none)
+
+## REVIEW_PENDING (deepen)
+<!-- deepen 이 goal-green 후 배치 review 로 미룬 NNN. source of truth = expanded frontmatter `deepen_pending_review`. -->
+<!-- /scenario-first-review --deepen-batch 가 전부 순회. 비어있지 않으면 새 throw 전 닫기 권고. -->
+<!-- REVIEW-PENDING-INSERT — deepen 보류 NNN 은 이 줄 바로 다음에 삽입. 배치 review 통과 시 제거. -->
 
 ## BACKUPS
 <!-- rerun/force 백업 추적 — 파일 자체는 .harness/.backups/ (gitignore). -->

@@ -51,4 +51,4 @@
     2. cycle lock 완화 형태: "throw 1개 OR deepen 배치 1개"로 재정의 — throw와 deepen-배치 동시 활성 허용 여부.
     3. backlog 항목 포맷: deepen 대상이 되려면 "어느 NNN을 깊게"라는 target 태그 규율 추가.
     4. tweak 게이트 2(시각)의 인프라: init(0)이 정한 E2E가 Playwright면 screenshot diff로 흡수, 아니면 순수 수동.
-  - status: candidate (분해 완료, 모델 사용자 합의 — 실제 스킬/룰 변경은 sfd-architect 정식 게이트 미통과 상태)
+  - status: **3축 전부 구현됨** (2026-05-22, sfd-architect 룰 3.9 게이트 2회 통과). depth=`scenario-first-deepen`(룰 3.10, single_active_cycle 확장, deepen_monotonic, spec 보강 경로, 배치 부분커밋) + cosmetic=`scenario-first-tweak`(룰 3.11, 게이트1=기존 풀 green 재사용·게이트2=시각 evidence, lock 미점유). 남은 후속 candidate: (a) deepen 배치 부분커밋의 commit-attribution 머신 검증(enforcement=blocking 승격 시), (b) tweak 표면 커버리지 hard block(표면↔테스트 매핑 생기면 — 현재 soft warn).

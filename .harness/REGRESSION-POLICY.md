@@ -21,6 +21,29 @@
 | frontmatter에 `archived: true` | 영구 제외 | 사용자가 명시 폐기 |
 | `tests/e2e/scenario-NNN/` 디렉터리 삭제됨 | 자동 제외 | 폐기 시 디렉터리도 정리 |
 
+## deepen 중 풀 유지 (룰 3.10 — 단조 재진입)
+
+`scenario-first-deepen` 이 `review_status: passed` 인 NNN을 다시 열어 example 을 추가하는 동안:
+
+> **그 NNN은 누적 풀에 그대로 남는다** — 단, deepen 이 기존 example 을 한 글자도 안 바꾼다는 단조성 전제 하에서만.
+
+근거:
+- deepen 은 example 을 **추가만** 한다 (제거·약화 없음). 기존 통과 example 은 불변 → 계속 green → 풀 보호 유지.
+- 새로 추가된 example(미검증분)만 이번 goal 게이트 대상. 통과 후 review(배치)로 닫힘.
+- 따라서 deepen 중 NNN을 풀에서 임시 제외할 필요 없음 (cycle lock 이 동시성을 이미 막으므로 실질 무해).
+
+### deepen-batch 보류 = 잠정 풀 멤버
+
+deepen 은 패스마다 review 를 하지 않고 goal-green 후 `deepen_pending_review` 로 미룬다(배치 review 로 묶음 — 룰 3.10). 그 **보류 창** 동안:
+
+> goal-green 한 새 example 은 **잠정 풀 멤버**다 — NNN 의 `review_status` 는 `passed` 그대로이므로 풀에 남고, 새 example 은 그 파일에 얹혀 후속 deepen 패스의 goal 게이트에 **자동 포함**된다. 본인 검증은 배치 review 까지 **유예**.
+
+- `regression_pool_passed_only` 와 무모순: 풀 진입 단위는 NNN 이고 그 NNN 은 `passed`. deepen 이 review_status 를 안 내린다.
+- 단 보류분은 *본인 미검증* — "안 써본 가짜 정답 누적" 리스크가 보류 창에 실재. 배치 review 가 이를 닫는 게 전제. **배치 review 를 안 돌리면** 보류분이 무기한 잠정 green → STATUS `REVIEW_PENDING` 가시화 + throw 사전점검 soft warn 으로 강제 closure.
+- 배치 review 에서 NNN 이 failed → 그 패스 보류 추가분은 routing 따라 철회/수정 (단조성 위반 아님 — 미잠금분).
+
+**단조성 = "잠긴 것 불변"** (추가분 영구가 아님). deepen 이 *잠긴(passed 시점 풀)* example 을 약화·제거하면 보호 **무효** — 잠긴 행동 회귀 가능. 반면 *이번 패스에서 추가됐고 아직 미통과/미잠금인* example 의 철회(배치 부분커밋 STUCK 환원)는 위반 아님. deepen SKILL.md 의 hard rule 이 1차 방어선, `rules.json` 의 `deepen_monotonic` check 가 사후 탐지.
+
 ## 폐기 절차
 
 NNN 폐기 시 다음을 함께:
