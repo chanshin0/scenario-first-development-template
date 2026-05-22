@@ -46,7 +46,8 @@ if [[ "$MODE" != "update" ]]; then
     exit 1
   }
   # deepen 보류분(REVIEW_PENDING)이 있으면 soft warn — 새 backbone 전에 닫기 권고 (룰 3.10)
-  if grep -A20 "^## REVIEW_PENDING" .harness/STATUS.md | grep -qE "^- [0-9]"; then
+  # 섹션 경계 한정 (다음 ## 전까지) — BACKUPS 등 다른 섹션의 '- ' 줄 오검출 방지
+  if awk '/^## REVIEW_PENDING/{f=1;next} /^## /{f=0} f' .harness/STATUS.md | grep -qE "^- "; then
     echo "WARN: deepen 보류분(REVIEW_PENDING) 있음 — 새 throw 전 /scenario-first-review --deepen-batch 권고 (가짜-green 누적 방지)"
   fi
 fi
